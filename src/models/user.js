@@ -20,17 +20,24 @@ const userSchema = new Schema(
       },
     },
     email: {
-      type: String,
-      required: true,
-      unique: true,
+      address: {
+        type: String,
+        required: true,
+        unique: true,
+      },
+      isVerified: {
+        type: Boolean,
+        default: false,
+      },
     },
     password: {
       type: String,
       required: true,
     },
     gender: {
-      type: Boolean,
-      required: true,
+      type: String,
+      enum: ["male", "female"],
+      default: "male",
     },
     role: {
       type: String,
@@ -39,7 +46,7 @@ const userSchema = new Schema(
     },
     personalInformation: {
       phone: {
-        type: String,
+        type: [String],
       },
       currentAddress: {
         type: String,
@@ -66,21 +73,31 @@ const userSchema = new Schema(
     profileInformation: {
       profilePicture: {
         type: String,
+        default: "profile-avatar.jpg",
       },
       coverPhoto: {
         type: String,
       },
       badges: {
-        type: String,
-        enum: ["none"],
-        default: "none",
+        type: [String],
+        enum: [
+          "cr",
+          "moderator",
+          "admin",
+          "donor",
+          "magnet",
+          "commentator",
+          "liker",
+          "popular",
+        ],
+        default: [],
       },
       restrictions: [
         {
           type: {
-            type: String,
+            type: [String],
             enum: ["post", "comment", "react"],
-            default: "none",
+            default: [],
           },
           time: {
             type: Date,
