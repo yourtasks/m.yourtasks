@@ -1,23 +1,16 @@
-"use client";
+import { getAuthUser } from "@/libs/getAuthUser";
+import { redirect } from "next/navigation";
 
-import useCurrentUser from "@/hooks/useCurrentUser";
-import { signOut } from "next-auth/react";
-
-const Page = () => {
-  const url = process.env.NEXT_PUBLIC_SITE_URL;
-
-  console.log(url);
-
-  const { data: user } = useCurrentUser();
+const Page = async () => {
+  const user = await getAuthUser();
 
   console.log(user);
 
-  return (
-    <div className="w-full h-full pt-[100px]">
-      Home
-      {user && <button onClick={signOut}>Sign out</button>}
-    </div>
-  );
+  if (user && !user.email.isVerified) {
+    redirect("/verify");
+  }
+
+  return <div className="w-full h-full pt-[100px]">Home</div>;
 };
 
 export default Page;

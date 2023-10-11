@@ -1,12 +1,7 @@
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import { protect } from "@/libs/protect";
 
 const layout = async ({ children }) => {
-  const session = await getServerSession();
-
-  if (!session) {
-    redirect("/login");
-  }
+  await protect();
 
   return <>{children}</>;
 };

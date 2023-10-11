@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 const page = async () => {
   const user = await getAuthUser();
 
-  if (user.email.isVerified) {
+  if (user && user.email.isVerified) {
     redirect("/");
   }
 

@@ -23,6 +23,6 @@ export const serverAuth = async (req) => {
   } catch (error) {
     console.log(error);
 
-    throw new NextResponse("Something went wrong");
+    throw new Error("Something went wrong");
   }
 };

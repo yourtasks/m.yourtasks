@@ -10,6 +10,10 @@ const tokenSchema = new Schema(
       type: String,
       required: true,
     },
+    resent: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

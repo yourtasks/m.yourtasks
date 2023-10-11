@@ -7,7 +7,7 @@ export const getAuthUser = async () => {
   const session = await getServerSession();
 
   if (!session) {
-    redirect("/login");
+    return null;
   }
 
   await connectToDB();
@@ -16,6 +16,10 @@ export const getAuthUser = async () => {
     const user = await User.findOne({
       "email.address": session.user.email.address,
     });
+
+    if (!user) {
+      return null;
+    }
 
     const { password, ...info } = user._doc;
 

@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-const Verify = ({ params }) => {
+const Verify = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState("");
@@ -20,10 +20,8 @@ const Verify = ({ params }) => {
     try {
       const { data } = await axios.put(`/api/token/verify`, {
         code,
-        username: params.username,
       });
 
-      console.log(data);
       setLoading(false);
       router.back();
       toast.success("Email verified successfully");
@@ -44,12 +42,11 @@ const Verify = ({ params }) => {
 
   const handleResetCode = async () => {
     try {
-      const { data } = await axios.get(`/api/token/resend-token`);
-
-      console.log(data);
+      await axios.get(`/api/token/resend-token`);
       toast("A code has sent to your email address");
     } catch (error) {
       console.log(error);
+      toast.error("Couldn't perform the operation");
     }
   };
 
