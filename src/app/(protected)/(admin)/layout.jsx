@@ -1,12 +1,15 @@
-import { protect } from "@/libs/protect";
-import { getServerSession } from "next-auth";
+import { getAuthUser } from "@/libs/getAuthUser";
 import { redirect } from "next/navigation";
 
 const layout = async ({ children }) => {
-  const session = await getServerSession();
+  const user = await getAuthUser();
 
-  if (!session) {
+  if (!user) {
     redirect("/login");
+  }
+
+  if (user.role !== "admin") {
+    redirect("/");
   }
 
   return <>{children}</>;

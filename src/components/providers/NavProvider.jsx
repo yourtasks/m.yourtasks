@@ -6,7 +6,7 @@ import TopNav from "../navigation/TopNav";
 const NavProvider = () => {
   const pathname = usePathname();
   const route = pathname.split("/");
-  const valuesToCheck = ["login", "verify", "register", "onboarding"];
+  const valuesToCheck = ["login", "verify", "register", "onboarding", "create"];
   const hide =
     pathname === "/"
       ? false

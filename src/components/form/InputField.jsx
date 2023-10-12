@@ -17,6 +17,7 @@ const InputField = ({
         rows={rows}
         value={value}
         onChange={onChange}
+        required
         className="input-field no-spin"
       />
     );
@@ -31,6 +32,7 @@ const InputField = ({
       onChange={onChange}
       placeholder={placeholder}
       className={`input-field ${style}`}
+      required
     />
   );
 };

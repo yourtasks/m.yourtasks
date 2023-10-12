@@ -1,5 +1,4 @@
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 import { connectToDB } from "./database";
 import { User } from "@/models/user";
 

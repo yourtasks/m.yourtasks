@@ -4,19 +4,14 @@ import { getAuthUser } from "./getAuthUser";
 export const protect = async () => {
   const user = await getAuthUser();
 
-  console.log("proctec");
-
   if (!user) {
-    redirect("/");
-    return null;
+    redirect("/login");
   }
   if (!user.email.isVerified) {
     redirect("/verify");
-    return null;
   }
 
-  if (!user.studentInformation.studentId) {
+  if (!user.studentInformation.courses.length > 0) {
     redirect("/onboarding");
-    return null;
   }
 };

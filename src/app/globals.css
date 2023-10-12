@@ -20,27 +20,31 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 @layer components {
+  .bg {
+    @apply bg-zinc-200 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-200;
+  }
+
   body {
-    @apply bg-zinc-200 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-200
+    @apply bg;
   }
 
   .border-color {
-    @apply border-zinc-500 border-opacity-30
+    @apply border-zinc-500 border-opacity-30;
   }
 
   .input-field {
-    @apply bg-zinc-900 bg-opacity-10 dark:bg-zinc-200 dark:bg-opacity-10 outline-none placeholder:text-zinc-500 selection:bg-sky-500 ring-2  ring-sky-500 p-4 rounded-lg w-full ring-opacity-0 focus:ring-opacity-100 focus:bg-opacity-5 resize-none transition
+    @apply bg-zinc-900 bg-opacity-10 dark:bg-zinc-200 dark:bg-opacity-10 outline-none placeholder:text-zinc-500 selection:bg-sky-500 ring-2  ring-sky-500 p-4 rounded-lg w-full ring-opacity-0 focus:ring-opacity-100 focus:bg-opacity-5 resize-none transition;
   }
 
   .button {
-    @apply bg-sky-500 px-4 py-2 rounded-lg active:bg-opacity-80 disabled:bg-zinc-300 disabled:text-zinc-500 disabled:dark:disabled:bg-zinc-800 disabled:cursor-not-allowed font-semibold capitalize transition
+    @apply bg-sky-500 px-4 py-2 rounded-lg active:bg-opacity-80 disabled:bg-zinc-300 disabled:text-zinc-500 disabled:dark:disabled:bg-zinc-800 disabled:cursor-not-allowed font-semibold capitalize transition;
   }
 
   .click {
-    @apply bg-zinc-900 dark:bg-zinc-200 bg-opacity-0 dark:bg-opacity-0 active:bg-opacity-10 dark:active:bg-opacity-10
+    @apply bg-zinc-900 dark:bg-zinc-200 bg-opacity-0 dark:bg-opacity-0 active:bg-opacity-10 dark:active:bg-opacity-10;
   }
 
   .card {
-    @apply bg-zinc-100 dark:bg-zinc-800
+    @apply bg-zinc-100 dark:bg-zinc-800;
   }
 }

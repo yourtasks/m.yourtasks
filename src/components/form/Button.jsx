@@ -1,8 +1,18 @@
 import { AiOutlineLoading } from "react-icons/ai";
 
-const Button = ({ title, loading, disabled }) => {
+const Button = ({ title, loading, disabled, onClick }) => {
+  const handleClick = () => {
+    if (!onClick) return;
+
+    onClick();
+  };
+
   return (
-    <button disabled={disabled || loading} className="w-full button">
+    <button
+      onClick={handleClick}
+      disabled={disabled || loading}
+      className="w-full button"
+    >
       {loading ? (
         <div className="w-full flex items-center justify-center animate-spin">
           <AiOutlineLoading size={24} />
