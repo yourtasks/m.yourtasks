@@ -12,7 +12,13 @@ export const GET = async (request) => {
   }
 
   try {
-    const courses = await Course.find().sort({ createdAt: -1 });
+    const courses = await Course.find();
+    courses.sort((a, b) => {
+      const sectionA = a.section;
+      const sectionB = b.section;
+
+      return sectionA.localeCompare(sectionB);
+    });
 
     return new NextResponse(JSON.stringify(courses), { status: 200 });
   } catch (error) {

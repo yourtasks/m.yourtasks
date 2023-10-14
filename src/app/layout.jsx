@@ -3,6 +3,7 @@ import "./globals.css";
 import { Montserrat } from "next/font/google";
 import NavProvider from "@/components/providers/NavProvider";
 import { Toaster } from "react-hot-toast";
+import ModalProvider from "@/components/providers/ModalProvider";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -18,6 +19,7 @@ export default function RootLayout({ children }) {
         <Toaster />
         <AuthProvider>
           <NavProvider />
+          <ModalProvider />
           <main className="h-screen w-screen">{children}</main>
         </AuthProvider>
       </body>

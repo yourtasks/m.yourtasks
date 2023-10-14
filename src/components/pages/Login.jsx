@@ -47,7 +47,13 @@ const Login = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value: orgValue } = e.target;
+
+    let value = orgValue;
+
+    if (name === "username") {
+      value = value.replace(" ", "").toLowerCase();
+    }
 
     setFormdata((prev) => ({ ...prev, [name]: value }));
   };

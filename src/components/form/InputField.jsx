@@ -8,6 +8,7 @@ const InputField = ({
   placeholder,
   rows = "5",
   style,
+  ref,
 }) => {
   if (textarea) {
     return (

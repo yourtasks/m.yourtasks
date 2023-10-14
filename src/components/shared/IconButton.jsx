@@ -1,6 +1,12 @@
 const IconButton = ({ children, onClick }) => {
+  const handleClick = (e) => {
+    e.stopPropagation();
+
+    onClick();
+  };
+
   return (
-    <button onClick={onClick} className="click p-4 rounded-full">
+    <button onClick={handleClick} className="click p-2 rounded-full">
       {children}
     </button>
   );

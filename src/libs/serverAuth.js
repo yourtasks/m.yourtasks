@@ -19,6 +19,10 @@ export const serverAuth = async (req) => {
       "email.address": emailAddress,
     });
 
+    if (!user) {
+      throw new Error("User not found");
+    }
+
     return user._doc;
   } catch (error) {
     console.log(error);

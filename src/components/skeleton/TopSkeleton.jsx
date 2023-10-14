@@ -5,7 +5,7 @@ import IconSkeleton from "./IconSkeleton";
 
 const TopSkeleton = () => {
   return (
-    <div className="flex items-center text-zinc-500 animate-pulse gap-x-10 p-4">
+    <div className="flex items-center text-zinc-500 animate-pulse gap-x-10 p-2">
       <MdAdd size={25} />
       <BsSearch size={25} />
       <IconSkeleton />

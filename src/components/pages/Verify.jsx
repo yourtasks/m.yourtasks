@@ -4,7 +4,7 @@ import Button from "@/components/form/Button";
 import InputField from "@/components/form/InputField";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 const Verify = () => {
@@ -12,6 +12,7 @@ const Verify = () => {
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState("");
   const canSubmit = code.length === 6;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -52,7 +53,7 @@ const Verify = () => {
 
   return (
     <div className="w-full h-full flex items-center justify-center">
-      <div className="w-3/5 card p-4 flex flex-col gap-y-4 rounded-lg">
+      <div className="w-5/6 card p-4 flex flex-col gap-y-4 rounded-lg">
         <div className="flex items-center justify-center ">
           <p className="bg-sky-500 rounded-full h-16 w-16 text-3xl flex items-center justify-center font-semibold">
             @
@@ -80,7 +81,7 @@ const Verify = () => {
             placeholder="Enter 6-digit verification code"
             value={code}
             onChange={handleChange}
-            style="text-center font-semibold tracking-wider"
+            style="text-sm text-center font-semibold tracking-wider"
           />
           <Button
             disabled={!canSubmit || loading}
@@ -91,7 +92,7 @@ const Verify = () => {
         <button
           disabled={loading}
           onClick={handleResetCode}
-          className={`rounded-lg py-2 font-medium disabled:opacity-30 ${
+          className={`text-xs rounded-lg py-2 font-medium disabled:opacity-30 ${
             !loading && "click"
           }`}
         >
