@@ -7,7 +7,15 @@ const page = async () => {
 
   console.log();
 
-  if (user && user.studentInformation.courses.length > 0) {
+  if (!user) {
+    redirect("/login");
+  }
+
+  if (user.studentInformation.courses.length > 0) {
+    if (user.role === "admin") {
+      return;
+    }
+
     redirect("/");
   }
 

@@ -6,22 +6,23 @@ import { fetcher } from "@/libs/fetcher";
 import PostSkeleton from "../skeleton/PostSkeleton";
 
 const Home = () => {
-  const currentDate = new Date();
-
-  console.log(currentDate);
-
   const { data: posts, isLoading } = useSWR(`/api/announcements`, fetcher);
-  console.log("Rereendering", isLoading);
+
+  console.log(posts);
   return (
-    <div className="w-full h-full pt-[56px] pb-[96px] flex flex-col gap-y-1 overflow-y-auto">
+    <div className="w-full h-full both-space flex flex-col gap-y-1 overflow-y-auto">
       {isLoading ? (
         <>
           {[1, 2, 3].map((index) => (
             <PostSkeleton key={index} />
           ))}
         </>
+      ) : posts && posts.length > 0 ? (
+        posts.map((post) => <Post key={post._id} data={post} />)
       ) : (
-        posts && posts.map((post) => <Post key={post._id} data={post} />)
+        <div className="h-full w-full flex items-center justify-center text-xl font-semibold">
+          No post found
+        </div>
       )}
     </div>
   );

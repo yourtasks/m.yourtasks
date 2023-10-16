@@ -1,13 +1,18 @@
 "use client";
+import useCurrentUser from "@/hooks/useCurrentUser";
 import axios from "axios";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { AiOutlineLoading } from "react-icons/ai";
 import { BiCheck, BiCheckDouble, BiSolidCheckCircle } from "react-icons/bi";
 import { BsDot, BsEyeFill, BsThreeDotsVertical } from "react-icons/bs";
 import { mutate } from "swr";
 
-export default function TaskItem({ data }) {
+export default function TaskItem({ data, completed }) {
+  const [checked, setChecked] = useState(completed ? completed : false);
+  const [loading, setLoading] = useState(false);
+  const user = useCurrentUser();
   const {
     _id,
     title,
@@ -29,21 +34,26 @@ export default function TaskItem({ data }) {
   const createdAgo = moment(createdAt).fromNow();
   const deadlineTime = moment(deadline).fromNow();
 
-  const view = async () => {
-    try {
-      await axios.put(`/api/tasks/${_id}/seen`);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   useEffect(() => {
-    view();
-  }, []);
-
-  const [checked, setChecked] = useState(false);
+    const view = async () => {
+      try {
+        await axios.put(`/api/tasks/${_id}/seen`);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (user) {
+      !seen.includes(user._id) && view();
+    }
+  }, [user, seen, _id]);
 
   const handleChecked = async () => {
+    if (completed) {
+      return;
+    }
+
     setChecked(true);
+    setLoading(true);
 
     try {
       const { data } = await axios.put(`/api/tasks/${_id}/completed`);
@@ -51,10 +61,12 @@ export default function TaskItem({ data }) {
       await mutate(`/api/tasks`);
 
       console.log(data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
-      toast.error("Could not mark as complete");
+      setLoading(false);
       setChecked(false);
+      toast.error("Could not mark as complete");
     }
   };
 
@@ -72,8 +84,18 @@ export default function TaskItem({ data }) {
         )}
       </div>
       <div
-        className={`m-2 p-2 card rounded-lg w-full ${checked && "opacity-70"}`}
+        className={`relative m-2 p-2 card rounded-lg w-full ${
+          checked && "opacity-70"
+        }`}
       >
+        {loading && (
+          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+            <div className="h-fit w-fit text-green-500 animate-spin">
+              <AiOutlineLoading size={30} />
+            </div>
+          </div>
+        )}
+
         <div className="w-full flex items-center gap-x-2">
           <p
             className={`text-xs rounded-md ${

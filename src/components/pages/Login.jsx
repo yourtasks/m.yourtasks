@@ -2,12 +2,14 @@
 
 import Button from "@/components/form/Button";
 import InputField from "@/components/form/InputField";
+import axios from "axios";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 const Login = () => {
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const [formdata, setFormdata] = useState({
@@ -31,18 +33,22 @@ const Login = () => {
 
     setLoading(true);
     try {
+      await axios.post(`/api/auth/login`, { username, password });
+      setError(null);
       await signIn("credentials", { username, password, callbackUrl: "/" });
+
       setLoading(false);
       reset();
     } catch (error) {
       console.log(error);
       setLoading(false);
-      if (error.status === 404) {
-        toast.error("Wrong username");
-      } else if (error.status === 403) {
-        toast.error("Wrong credentials");
+      if (error.response.status === 404) {
+        setError({ message: error.response.data, name: "username" });
+      } else if (error.response.status === 401) {
+        setError({ message: error.response.data, name: "password" });
+      } else {
+        toast.error("Something went wrong");
       }
-      toast.error("Something went wrong");
     }
   };
 
@@ -60,7 +66,7 @@ const Login = () => {
 
   return (
     <div className="h-screen w-screen flex flex-col items-center justify-center gap-y-4">
-      <div className="w-4/5 flex flex-col items-center gap-y-4 px-6 py-10 card rounded-lg">
+      <div className="w-5/6 flex flex-col items-center gap-y-4 px-6 py-10 card rounded-lg">
         <h1 className="text-xl font-semibold">Login Page</h1>
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-y-4">
           <InputField
@@ -70,6 +76,8 @@ const Login = () => {
             placeholder="Username"
             value={username}
             onChange={handleChange}
+            error={error}
+            focus
           />
           <InputField
             disabled={loading}
@@ -78,6 +86,8 @@ const Login = () => {
             placeholder="Password"
             value={password}
             onChange={handleChange}
+            error={error}
+            focus={true}
           />
           {!loading && (
             <Link
@@ -93,15 +103,15 @@ const Login = () => {
             disabled={loading || !canSubmit}
           />
         </form>
-        <p className="text-sm">
-          Don{"'"}t have an account?{" "}
+        <div className="text-xs flex flex-col items-center gap-y-1 w-full">
+          <p>Don{"'"}t have an account? </p>
           <Link
             href={"/register"}
-            className="font-medium text-sky-500 px-2 py-2 click rounded-md no-select"
+            className="text-sm font-medium text-sky-500 px-2 py-2 click rounded-md no-select"
           >
-            Learn to create
+            Create an account
           </Link>
-        </p>
+        </div>
       </div>
     </div>
   );

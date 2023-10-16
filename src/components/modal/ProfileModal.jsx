@@ -81,6 +81,10 @@ const ProfileModal = () => {
               <List>
                 <ButtonItem
                   title="Add new course"
+                  onClick={() => {
+                    router.push("/courses/create");
+                    setClose();
+                  }}
                   Icon={<LiaBookMedicalSolid size={20} />}
                 />
                 <ButtonItem

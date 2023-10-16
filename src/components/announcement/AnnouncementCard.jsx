@@ -10,7 +10,7 @@ export const AnnouncementCard = ({ data }) => {
     <div className="flex flex-col card rounded-lg no-select">
       <div className="flex flex-col gap-y-1 click p-4 rounded-lg">
         <p className="text-xs font-semibold opacity-50">
-          {moment(createdAt).format("DD MMMM YYYY") + " • seen by 16"}
+          {moment(createdAt).format("DD MMMM YY") + " • seen by 16"}
         </p>
         <h1 className="font-semibold line-clamp-2">{`${source.section.toUpperCase()} ${
           source.name

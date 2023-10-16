@@ -24,7 +24,7 @@ const Verify = () => {
       });
 
       setLoading(false);
-      router.back();
+      router.push("/onboarding");
       toast.success("Email verified successfully");
     } catch (error) {
       console.log(error);

@@ -1,12 +1,41 @@
-const TaskNav = () => {
+"use client";
+import { fetcher } from "@/libs/fetcher";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import useSWR from "swr";
+
+const NavItem = ({ title, path, link }) => {
   return (
-    <div className="sticky top-0 left-0 flex items-center w-full card rounded-lg overflow-hidden z-50">
-      <button className="w-full py-2 font-semibold text-sky-500 border-b-4 border-sky-500">
-        Pending(15)
-      </button>
-      <button className="w-full py-2">Pending(15)</button>
-    </div>
+    <Link
+      href={link}
+      className={`w-full py-2 text-center border-b-4  ${
+        path === link
+          ? "font-semibold text-sky-500 border-sky-500"
+          : "border-transparent"
+      }`}
+    >
+      {title}
+    </Link>
   );
+};
+
+const TaskNav = () => {
+  const { data: tasks, isLoading } = useSWR(`/api/tasks`, fetcher);
+  const path = usePathname();
+
+  if (path === "/tasks" || path === "/tasks/completed")
+    return (
+      <div className="fixed flex items-center w-full card overflow-hidden z-40">
+        <NavItem
+          title={isLoading ? "Pending" : `Pending (${tasks.length})`}
+          path={path}
+          link={"/tasks"}
+        />
+        <NavItem title="Completed" path={path} link={"/tasks/completed"} />
+      </div>
+    );
+
+  return null;
 };
 
 export default TaskNav;

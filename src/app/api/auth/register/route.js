@@ -13,6 +13,7 @@ export const POST = async (request) => {
     lastname,
     email: orgEmail,
     password,
+    studentId,
   } = await request.json();
 
   const username = orgUsername.toLowerCase();
@@ -20,11 +21,31 @@ export const POST = async (request) => {
 
   console.log(username, email, firstname, lastname);
 
-  await connectToDB();
-
   const hashedPassword = await hash(password, 10);
 
   try {
+    await connectToDB();
+
+    const studentIdTaken = await User.findOne({
+      "studentInformation.studentId": studentId,
+    });
+
+    if (studentIdTaken) {
+      return new NextResponse("student id taken", { status: 409 });
+    }
+
+    const emailTaken = await User.findOne({ "email.address": email });
+
+    if (emailTaken) {
+      return new NextResponse("email taken", { status: 409 });
+    }
+
+    const usernameTaken = await User.findOne({ username });
+
+    if (usernameTaken) {
+      return new NextResponse("username taken", { status: 409 });
+    }
+
     const newUser = await User.create({
       username,
       name: {
@@ -33,6 +54,7 @@ export const POST = async (request) => {
       },
       email: { address: email },
       password: hashedPassword,
+      studentInformation: { studentId },
     });
 
     const code = await generateCode();

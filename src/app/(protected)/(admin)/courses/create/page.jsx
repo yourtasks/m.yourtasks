@@ -100,6 +100,7 @@ const Page = () => {
           placeholder="Course name"
           value={name}
           onChange={handleChange}
+          style={"capitalize"}
         />
         <InputField
           type="text"

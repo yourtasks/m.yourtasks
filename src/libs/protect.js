@@ -12,6 +12,9 @@ export const protect = async () => {
   }
 
   if (!user.studentInformation.courses.length > 0) {
+    if (user.role === "admin") {
+      return;
+    }
     redirect("/onboarding");
   }
 };

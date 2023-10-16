@@ -5,29 +5,24 @@ import { NextResponse } from "next/server";
 
 export const GET = async (request) => {
   const user = await protectRoute();
-
+  console.log(user._id);
   const coursesId = user.studentInformation.courses.map((course) => course);
 
   try {
-    const tasks = await Task.find({ source: { $in: coursesId } })
-      .populate("owner source")
-      .sort({ deadline: -1 });
+    const tasks = await Task.find({
+      source: { $in: coursesId },
+      hasCompleted: { $nin: [user._id] },
+    })
+      .populate("source owner")
+      .sort({
+        deadline: -1,
+      });
 
     if (!tasks) {
       return new NextResponse("Task not found", { status: 404 });
     }
 
-    console.log(tasks);
-
-    const incompletedTasks = tasks.map((task) => {
-      if (!task._doc.hasCompleted.includes(user._id)) {
-        return task._doc;
-      }
-    });
-
-    console.log(incompletedTasks);
-
-    return new NextResponse(JSON.stringify(incompletedTasks), { status: 200 });
+    return new NextResponse(JSON.stringify(tasks), { status: 200 });
   } catch (error) {
     console.log(error);
 

@@ -9,7 +9,8 @@ import axios from "axios";
 import { RxReset } from "react-icons/rx";
 import IconButton from "../shared/IconButton";
 import toast from "react-hot-toast";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import CourseSkeleton from "../skeleton/CourseSkeleton";
 
 const Course = ({ data, rooms, setRooms, canSubmit }) => {
   const disabled =
@@ -76,9 +77,10 @@ const Course = ({ data, rooms, setRooms, canSubmit }) => {
 };
 
 const Onboard = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [rooms, setRooms] = useState([]);
-  const { data } = useSWR(`/api/courses`, fetcher);
+  const { data, isLoading } = useSWR(`/api/courses`, fetcher);
   const canSubmit = rooms.length < 8;
 
   const handleSubmit = async () => {
@@ -90,7 +92,7 @@ const Onboard = () => {
       );
       console.log(data);
       setLoading(false);
-      redirect("/");
+      router.push("/");
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -117,7 +119,19 @@ const Onboard = () => {
           </div>
         </div>
         <div className="h-full w-full overflow-y-auto flex flex-col gap-y-4">
-          {data &&
+          {isLoading ? (
+            <div className="flex flex-col gap-y-4 w-full">
+              <CourseSkeleton />
+              <CourseSkeleton />
+              <CourseSkeleton />
+              <CourseSkeleton />
+              <CourseSkeleton />
+              <CourseSkeleton />
+              <CourseSkeleton />
+              <CourseSkeleton />
+            </div>
+          ) : (
+            data &&
             data.map((course) => (
               <Course
                 key={course._id}
@@ -126,7 +140,8 @@ const Onboard = () => {
                 setRooms={setRooms}
                 canSubmit={canSubmit}
               />
-            ))}
+            ))
+          )}
         </div>
         <div className="fixed bottom-0 z-10 left-0 w-full py-4 px-4 flex flex-col gap-y-2 bg">
           <Button

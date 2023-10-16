@@ -23,7 +23,7 @@ const Post = ({ data }) => {
 
   return (
     <PostContainer>
-      <PostHeader createdAt={createdAt} owner={owner} />
+      <PostHeader postId={_id} createdAt={createdAt} owner={owner} />
       {type === "announcement" && (
         <Announcement title={title} description={description} source={source} />
       )}

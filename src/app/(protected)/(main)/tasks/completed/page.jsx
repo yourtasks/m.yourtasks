@@ -8,7 +8,7 @@ import { fetcher } from "@/libs/fetcher";
 import useSWR from "swr";
 
 const Page = () => {
-  const { data: tasks, isLoading } = useSWR(`/api/tasks`, fetcher);
+  const { data: tasks, isLoading } = useSWR(`/api/tasks/hasCompleted`, fetcher);
 
   console.log(isLoading, tasks);
 
@@ -24,10 +24,12 @@ const Page = () => {
             <TaskSkeleton />
           </div>
         ) : tasks && tasks.length > 0 ? (
-          tasks.map((task) => <TaskItem key={task._id} data={task} />)
+          tasks.map((task) => (
+            <TaskItem key={task._id} data={task} completed={true} />
+          ))
         ) : (
-          <div className="h-full w-full font-semibold text-xl flex items-center justify-center capitalize">
-            No Pending task
+          <div className="h-full w-full font-semibold text-xs flex items-center jc">
+            No Task found
           </div>
         )}
       </div>
