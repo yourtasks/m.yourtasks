@@ -1,9 +1,13 @@
-import { connectToDB } from "@/libs/database";
+import { protectRoute } from "@/libs/protectRoute";
 import { User } from "@/models/user";
 import { NextResponse } from "next/server";
 
 export const GET = async (request) => {
-  await connectToDB();
+  const user = await protectRoute();
+
+  if (user.role !== "admin") {
+    return new NextResponse("Access denied", { status: 403 });
+  }
 
   try {
     const users = await User.find();
