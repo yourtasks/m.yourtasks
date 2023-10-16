@@ -8,6 +8,7 @@ const UserListItem = ({ data }) => {
   const {
     name: { firstname, lastname },
     username,
+    role,
   } = data;
   const [option, setOption] = useState(false);
 
@@ -25,6 +26,17 @@ const UserListItem = ({ data }) => {
       </div>
       <p className="text-sm font-semibold opacity-70 w-full">
         {`${firstname} ${lastname}`}
+        <span
+          className={`mx-2 px-2 py-1 text-xs font-semibold text-white rounded-md ${
+            role === "admin"
+              ? "bg-green-500"
+              : role === "cr"
+              ? "bg-blue-500"
+              : "bg-black bg-opacity-30"
+          }`}
+        >
+          {role}
+        </span>
       </p>
       <div onClick={() => setOption(true)} className="p-2 click rounded-full">
         <BsThreeDotsVertical size={20} />
