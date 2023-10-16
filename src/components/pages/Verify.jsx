@@ -4,9 +4,11 @@ import Button from "@/components/form/Button";
 import InputField from "@/components/form/InputField";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import axios from "axios";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { BiLogOut, BiLogOutCircle } from "react-icons/bi";
 
 const Verify = () => {
   const { data: user } = useCurrentUser();
@@ -55,7 +57,13 @@ const Verify = () => {
 
   return (
     <div className="w-full h-full flex items-center justify-center">
-      <div className="w-5/6 card p-4 flex flex-col gap-y-4 rounded-lg">
+      <div className="w-5/6 card p-4 flex flex-col gap-y-4 rounded-lg relative">
+        <div onClick={signOut} className="flex w-full justify-end items-center">
+          <p className="font-semibold px-4">Log out</p>
+          <div className="p-2 rounded-full bg-rose-500 flex items-center justify-center">
+            <BiLogOutCircle size={30} />
+          </div>
+        </div>
         <div className="flex items-center justify-center ">
           <p className="bg-sky-500 rounded-full h-16 w-16 text-3xl flex items-center justify-center font-semibold">
             @

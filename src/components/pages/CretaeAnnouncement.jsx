@@ -5,8 +5,11 @@ import Button from "../form/Button";
 import SelectRoom from "../form/SelectRoom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import HeaderBack from "../shared/HeaderBack";
+import { useRouter } from "next/navigation";
 
 const CreateAnnouncement = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [course, setCourse] = useState("all");
   const [formdata, setFormdata] = useState({
@@ -21,14 +24,14 @@ const CreateAnnouncement = () => {
     console.log(course);
     setLoading(true);
     try {
-      const { data } = await axios.post(`/api/announcements`, {
+      await axios.post(`/api/announcements`, {
         title,
         description,
         course,
       });
 
-      console.log(data);
       setLoading(false);
+      router.push("/announcements");
       toast.success("Post created successfully");
     } catch (error) {
       console.log(error);
@@ -45,26 +48,29 @@ const CreateAnnouncement = () => {
   };
 
   return (
-    <div className="h-full w-full flex flex-col gap-y-4 items-center justify-center">
-      <h1 className="text-xl font-medium">Post an announcement</h1>
-      <form onSubmit={handleSubmit} className="w-4/5 flex flex-col gap-y-4">
-        <InputField
-          type="text"
-          name="title"
-          placeholder="Title"
-          value={title}
-          onChange={handleChange}
-        />
-        <InputField
-          type="text"
-          name="description"
-          placeholder="Description"
-          value={description}
-          onChange={handleChange}
-        />
-        <SelectRoom course={course} setCourse={setCourse} />
-        <Button loading={loading} title="Post" />
-      </form>
+    <div className="w-full h-full flex flex-col">
+      <HeaderBack title="Announcement creation" />
+      <div className="h-full w-full flex flex-col gap-y-4 items-center justify-center">
+        <h1 className="text-xl font-medium">Post an announcement</h1>
+        <form onSubmit={handleSubmit} className="w-4/5 flex flex-col gap-y-4">
+          <InputField
+            type="text"
+            name="title"
+            placeholder="Title"
+            value={title}
+            onChange={handleChange}
+          />
+          <InputField
+            type="text"
+            name="description"
+            placeholder="Description"
+            value={description}
+            onChange={handleChange}
+          />
+          <SelectRoom course={course} setCourse={setCourse} />
+          <Button loading={loading} title="Post" />
+        </form>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 "use client";
+import useCurrentUser from "@/hooks/useCurrentUser";
 import { usePostStore } from "@/store/usePostStore";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -20,7 +21,10 @@ const Option = ({ title, Icon, link, setClose }) => {
 };
 
 const PostTypeModal = () => {
+  const { data: user } = useCurrentUser();
   const { isOpen, setClose } = usePostStore();
+
+  const isAdmin = user && user.role === "admin";
 
   if (isOpen)
     return (
@@ -30,12 +34,14 @@ const PostTypeModal = () => {
           className="fixed z-10 top-0 left-0 w-full h-full invert-bg opacity-20"
         />
         <div className="absolute z-20 bottom-0 left-0 w-full card px-2 py-4 flex flex-col gap-y-2 rounded-t-xl">
-          <Option
-            title="Create Course"
-            Icon={<BiBookAlt size={25} />}
-            setClose={setClose}
-            link="/courses/create"
-          />
+          {isAdmin && (
+            <Option
+              title="Create Course"
+              Icon={<BiBookAlt size={25} />}
+              setClose={setClose}
+              link="/courses/create"
+            />
+          )}
           <Option
             title="Create Announcement"
             Icon={<MdOutlineCampaign size={25} />}
@@ -48,12 +54,14 @@ const PostTypeModal = () => {
             setClose={setClose}
             link="/tasks/create"
           />
-          <Option
-            title="Create Vote"
-            Icon={<MdHowToVote size={25} />}
-            setClose={setClose}
-            link="/votes/create"
-          />
+          {isAdmin && (
+            <Option
+              title="Create Vote"
+              Icon={<MdHowToVote size={25} />}
+              setClose={setClose}
+              link="/votes/create"
+            />
+          )}
         </div>
       </div>
     );

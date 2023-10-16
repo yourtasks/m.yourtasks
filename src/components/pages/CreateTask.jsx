@@ -8,8 +8,10 @@ import SelectRoom from "../form/SelectRoom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import HeaderBack from "../shared/HeaderBack";
+import { useRouter } from "next/navigation";
 
 const CreateTask = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [course, setCourse] = useState(null);
   const [formdata, setFormdata] = useState({
@@ -26,16 +28,15 @@ const CreateTask = () => {
     setLoading(true);
 
     try {
-      const { data } = await axios.post(`/api/tasks`, {
+      await axios.post(`/api/tasks`, {
         title,
         description,
         deadline,
         course,
       });
 
-      console.log(data);
+      router.push("/tasks");
       setLoading(false);
-
       toast.success("Created");
     } catch (error) {
       console.log(error);

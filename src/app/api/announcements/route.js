@@ -3,10 +3,15 @@ import { protectRoute } from "@/libs/protectRoute";
 import { Announcement } from "@/models/announcement";
 import { Course } from "@/models/course";
 import { User } from "@/models/user";
+import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 
 export const GET = async (request) => {
   const user = await protectRoute();
+
+  if (!user) {
+    redirect("/login");
+  }
 
   const courses =
     user && user.studentInformation.courses.map((course) => course._id);

@@ -76,11 +76,16 @@ const ProfileModal = () => {
                 className="object-cover rounded-full"
               />
             </div>
-            {user && (
-              <p className="text-sm font-medium">
-                {user.name.firstname + " " + user.name.lastname}
-              </p>
-            )}
+            <div className="flex flex-col gap-y-2">
+              {user && (
+                <>
+                  <p className="text-sm font-medium">
+                    {user.name.firstname + " " + user.name.lastname}
+                  </p>
+                  <p>{user.role}</p>
+                </>
+              )}
+            </div>
           </div>
           <div></div>
           <Seperator title="Profile" />

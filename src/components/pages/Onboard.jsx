@@ -1,41 +1,34 @@
 "use client";
 import { useRef, useState } from "react";
 import Button from "../form/Button";
-import InputField from "../form/InputField";
-import { v4 } from "uuid";
 import useSWR from "swr";
 import { fetcher } from "@/libs/fetcher";
 import axios from "axios";
-import { RxReset } from "react-icons/rx";
-import IconButton from "../shared/IconButton";
 import toast from "react-hot-toast";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import CourseSkeleton from "../skeleton/CourseSkeleton";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { BiPlusCircle } from "react-icons/bi";
 import Link from "next/link";
 
 const Course = ({ data, rooms, setRooms, canSubmit }) => {
-  const disabled =
-    !canSubmit && rooms.some((room) => room.roomCode !== data.roomCode);
-
+  const canSelect = rooms.length < 8;
   const isSelected = rooms.some((room) => room.roomCode === data.roomCode);
 
   const inputRef = useRef(null);
 
   const handleClick = () => {
-    if (disabled) {
-      return;
-    }
-
     inputRef.current.checked = !inputRef.current.checked;
 
     handleChange();
   };
 
   const handleChange = () => {
-    console.log("first");
     const { value, checked } = inputRef.current;
+
+    if (!canSelect && !isSelected) {
+      return;
+    }
 
     if (checked) {
       setRooms((prev) => [
@@ -110,7 +103,8 @@ const Onboard = () => {
       <div className="h-full w-full flex flex-col gap-y-4 items-center justify-center px-4 pb-[96px]">
         <div className="h-fit py-2 flex flex-col gap-y-4">
           <h1 className="text-2xl text-center font-medium">
-            Select your courses
+            Select your courses{" "}
+            <span className="font-semibold">{`${rooms.length}/8`}</span>
           </h1>
           <div className="h-fit w-full flex flex-wrap items-center gap-2">
             {rooms.map((room) => (

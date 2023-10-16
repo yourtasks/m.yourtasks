@@ -1,5 +1,6 @@
 "use client";
 import Post from "@/components/posts/Post";
+import Empty from "@/components/shared/Empty";
 import PostSkeleton from "@/components/skeleton/PostSkeleton";
 import TaskSkeleton from "@/components/skeleton/TaskSkeleton";
 import TaskItem from "@/components/tasks/TaskItem";
@@ -13,7 +14,7 @@ const Page = () => {
   console.log(isLoading, tasks);
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full pt-[44px]">
       <div className="h-full overflow-y-auto px-4 flex flex-col gap-y-2 py-4">
         {isLoading ? (
           <div className="flex flex-col gap-y-4">
@@ -28,9 +29,7 @@ const Page = () => {
             <TaskItem key={task._id} data={task} completed={true} />
           ))
         ) : (
-          <div className="h-full w-full font-semibold text-xs flex items-center jc">
-            No Task found
-          </div>
+          <Empty title="No completed task" />
         )}
       </div>
     </div>

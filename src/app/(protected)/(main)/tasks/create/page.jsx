@@ -4,9 +4,6 @@ import { redirect } from "next/navigation";
 
 const page = async () => {
   const user = await getAuthUser();
-
-  console.log(user.role);
-
   user.role === "user" && redirect("/");
   user.role === "moderator" && redirect("/");
 

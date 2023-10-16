@@ -7,7 +7,7 @@ import { fetcher } from "@/libs/fetcher";
 import useSWR from "swr";
 
 const Page = () => {
-  const { data: courses, isLoading } = useSWR(`/api/courses`, fetcher);
+  const { data: courses, isLoading } = useSWR(`/api/users/courses`, fetcher);
 
   return (
     <div className="h-full w-full flex flex-col">
