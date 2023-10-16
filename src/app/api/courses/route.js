@@ -50,6 +50,12 @@ export const POST = async (request) => {
   const roomCode = code + section;
 
   try {
+    const courseExists = await Course.findOne({ roomCode });
+
+    if (courseExists) {
+      return new NextResponse("Duplicate section", { status: 409 });
+    }
+
     const course = await Course.create({
       code,
       name,

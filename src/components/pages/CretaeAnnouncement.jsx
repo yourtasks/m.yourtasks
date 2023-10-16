@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 
 const CreateAnnouncement = () => {
   const [loading, setLoading] = useState(false);
-  const [course, setCourse] = useState(null);
+  const [course, setCourse] = useState("all");
   const [formdata, setFormdata] = useState({
     title: "",
     description: "",
@@ -18,6 +18,7 @@ const CreateAnnouncement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(course);
     setLoading(true);
     try {
       const { data } = await axios.post(`/api/announcements`, {

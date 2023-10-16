@@ -10,7 +10,6 @@ const courseSchema = new Schema(
     code: {
       type: String,
       required: true,
-      unique: true,
     },
     name: {
       type: String,
@@ -28,6 +27,7 @@ const courseSchema = new Schema(
     cr: {
       type: [Schema.Types.ObjectId],
       ref: "User",
+      default: [],
     },
     announcements: {
       type: [Schema.Types.ObjectId],
@@ -47,6 +47,7 @@ const courseSchema = new Schema(
     polls: {
       type: [Schema.Types.ObjectId],
       ref: "Poll",
+      default: [],
     },
   },
   {

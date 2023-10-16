@@ -6,13 +6,10 @@ import { User } from "@/models/user";
 import { NextResponse } from "next/server";
 
 export const GET = async (request) => {
-  await protectRoute();
-  const user = await getAuthUser();
+  const user = await protectRoute();
 
   const courses =
     user && user.studentInformation.courses.map((course) => course._id);
-
-  console.log(courses);
 
   try {
     const announcements = await Announcement.find({

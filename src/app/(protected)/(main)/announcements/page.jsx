@@ -1,5 +1,6 @@
 "use client";
 import { AnnouncementCard } from "@/components/announcement/AnnouncementCard";
+import Empty from "@/components/shared/Empty";
 import { fetcher } from "@/libs/fetcher";
 import useSWR from "swr";
 
@@ -18,9 +19,10 @@ const Page = () => {
               />
             ))}
           </div>
-        ) : (
-          posts &&
+        ) : posts && posts.length > 0 ? (
           posts.map((post) => <AnnouncementCard key={post._id} data={post} />)
+        ) : (
+          <Empty title="No announcement yet" />
         )}
       </div>
     </div>

@@ -1,15 +1,15 @@
 import Image from "next/image";
 import React from "react";
 
-const Avatar = ({ imageUrl }) => {
+const Avatar = ({ imageUrl, size = 25 }) => {
   return (
     <div>
       <div>
         <Image
           src={imageUrl}
           alt="profile"
-          height={25}
-          width={25}
+          height={size}
+          width={size}
           className="bg-cover rounded-full"
         />
       </div>

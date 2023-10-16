@@ -2,11 +2,11 @@
 import { useProfile } from "@/store/useProfile";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
-import { BsPersonAdd, BsPostcard } from "react-icons/bs";
+import { BsPersonAdd, BsPersonUp, BsPostcard } from "react-icons/bs";
 import { MdOutlineAssignmentInd, MdOutlineSecurity } from "react-icons/md";
 import { LiaBookMedicalSolid } from "react-icons/lia";
 import { RxAvatar } from "react-icons/rx";
-import { BiHelpCircle, BiLogOut } from "react-icons/bi";
+import { BiBookAlt, BiHelpCircle, BiLogOut } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "@/libs/fetcher";
@@ -14,10 +14,22 @@ const List = ({ children }) => {
   return <div className="w-full flex flex-col gap-y-2">{children}</div>;
 };
 
-const ButtonItem = ({ title, Icon, onClick, red }) => {
+const ButtonItem = ({ title, Icon, onClick, red, link }) => {
+  const { setClose } = useProfile();
+  const router = useRouter();
+  const handleClick = () => {
+    if (link) {
+      router.push(link);
+      setClose();
+      return;
+    }
+    onClick();
+    setClose();
+  };
+
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       className={`flex items-center gap-x-2 p-4 w-full rounded-lg border-[1px] click no-select ${
         red && "text-red-500 border-red-500 bg-red-500 bg-opacity-5"
       }`}
@@ -74,6 +86,11 @@ const ProfileModal = () => {
           <Seperator title="Profile" />
           <List>
             <ButtonItem title="Your posts" Icon={<BsPostcard size={20} />} />
+            <ButtonItem
+              title="Your courses"
+              Icon={<BiBookAlt size={20} />}
+              link="/courses"
+            />
           </List>
           {user && user.role === "admin" && (
             <>
@@ -81,16 +98,13 @@ const ProfileModal = () => {
               <List>
                 <ButtonItem
                   title="Add new course"
-                  onClick={() => {
-                    router.push("/courses/create");
-                    setClose();
-                  }}
+                  link="/courses/create"
                   Icon={<LiaBookMedicalSolid size={20} />}
                 />
                 <ButtonItem
                   title="Add new user"
-                  onClick={() => router.push("/users")}
                   Icon={<BsPersonAdd size={20} />}
+                  link="/users"
                 />
                 <ButtonItem
                   title="Assign role"
@@ -109,6 +123,10 @@ const ProfileModal = () => {
             <ButtonItem
               title="password & security"
               Icon={<MdOutlineSecurity size={20} />}
+            />
+            <ButtonItem
+              title="Reuqest for a Role"
+              Icon={<BsPersonUp size={20} />}
             />
           </List>
 

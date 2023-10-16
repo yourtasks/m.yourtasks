@@ -28,7 +28,7 @@ const InputField = ({
   }
 
   return (
-    <>
+    <div className="w-full flex flex-col gap-y-1">
       <input
         autoFocus={focus && focus}
         disabled={disabled}
@@ -43,11 +43,11 @@ const InputField = ({
         {...other}
       />
       {hasError && (
-        <p className="text-xs font-semibold text-rose-500 capitalize">
+        <p className="text-xs font-semibold text-rose-500 capitalize px-2">
           {error.message}
         </p>
       )}
-    </>
+    </div>
   );
 };
 

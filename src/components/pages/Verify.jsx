@@ -2,12 +2,14 @@
 
 import Button from "@/components/form/Button";
 import InputField from "@/components/form/InputField";
+import useCurrentUser from "@/hooks/useCurrentUser";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 const Verify = () => {
+  const { data: user } = useCurrentUser();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState("");
@@ -63,8 +65,10 @@ const Verify = () => {
           Verify Email Account
         </h1>
         <p className="text-center text-sm opacity-70 py-4">
-          A 6-digit verification code has been sent to your email. Please check
-          your email inbox, including the spam or junk folder, to find the code.
+          A 6-digit verification code has been sent to your{" "}
+          <span className="font-semibold">{user && user.email.address}</span>{" "}
+          email. Please check your email inbox, including the spam or junk
+          folder, to find the code.
           <br />
           <br />
           If you haven{"'"}t received the code, please click the{" "}

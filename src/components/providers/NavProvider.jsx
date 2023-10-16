@@ -13,7 +13,9 @@ const NavProvider = () => {
     "onboarding",
     "create",
     "users",
+    "courses",
   ];
+
   const hide =
     pathname === "/"
       ? false

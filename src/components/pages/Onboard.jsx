@@ -11,6 +11,9 @@ import IconButton from "../shared/IconButton";
 import toast from "react-hot-toast";
 import { redirect, useRouter } from "next/navigation";
 import CourseSkeleton from "../skeleton/CourseSkeleton";
+import useCurrentUser from "@/hooks/useCurrentUser";
+import { BiPlusCircle } from "react-icons/bi";
+import Link from "next/link";
 
 const Course = ({ data, rooms, setRooms, canSubmit }) => {
   const disabled =
@@ -78,9 +81,10 @@ const Course = ({ data, rooms, setRooms, canSubmit }) => {
 
 const Onboard = () => {
   const router = useRouter();
+  const { data: courses, isLoading } = useSWR(`/api/courses`, fetcher);
+  const { data: user, isLoading: loadingUser } = useCurrentUser();
   const [loading, setLoading] = useState(false);
   const [rooms, setRooms] = useState([]);
-  const { data, isLoading } = useSWR(`/api/courses`, fetcher);
   const canSubmit = rooms.length < 8;
 
   const handleSubmit = async () => {
@@ -93,6 +97,7 @@ const Onboard = () => {
       console.log(data);
       setLoading(false);
       router.push("/");
+      setRooms([]);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -130,9 +135,8 @@ const Onboard = () => {
               <CourseSkeleton />
               <CourseSkeleton />
             </div>
-          ) : (
-            data &&
-            data.map((course) => (
+          ) : courses && courses.length > 0 ? (
+            courses.map((course) => (
               <Course
                 key={course._id}
                 data={course}
@@ -141,6 +145,21 @@ const Onboard = () => {
                 canSubmit={canSubmit}
               />
             ))
+          ) : (
+            <div className="h-full w-full flex items-center justify-center font-semibold flex-col gap-y-4">
+              <h1>No course found</h1>
+              {user.role === "admin" && (
+                <Link
+                  href={"/courses/create"}
+                  className="button flex items-center gap-x-4"
+                >
+                  <div>
+                    <BiPlusCircle size={30} />
+                  </div>
+                  <p>Add new course</p>
+                </Link>
+              )}
+            </div>
           )}
         </div>
         <div className="fixed bottom-0 z-10 left-0 w-full py-4 px-4 flex flex-col gap-y-2 bg">

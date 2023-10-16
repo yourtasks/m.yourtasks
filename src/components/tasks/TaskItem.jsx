@@ -56,14 +56,10 @@ export default function TaskItem({ data, completed }) {
     setLoading(true);
 
     try {
-      const { data } = await axios.put(`/api/tasks/${_id}/completed`);
-
+      await axios.put(`/api/tasks/${_id}/completed`);
       await mutate(`/api/tasks`);
-
-      console.log(data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
       setLoading(false);
       setChecked(false);
       toast.error("Could not mark as complete");

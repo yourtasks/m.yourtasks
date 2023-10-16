@@ -77,7 +77,7 @@ const Login = () => {
             value={username}
             onChange={handleChange}
             error={error}
-            focus
+            focus={true}
           />
           <InputField
             disabled={loading}
@@ -87,7 +87,6 @@ const Login = () => {
             value={password}
             onChange={handleChange}
             error={error}
-            focus={true}
           />
           {!loading && (
             <Link

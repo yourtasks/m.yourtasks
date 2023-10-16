@@ -8,6 +8,8 @@ export const GET = async (request) => {
   console.log(user._id);
   const coursesId = user.studentInformation.courses.map((course) => course);
 
+  const currentDate = new Date();
+
   try {
     const tasks = await Task.find({
       source: { $in: coursesId },
@@ -15,14 +17,30 @@ export const GET = async (request) => {
     })
       .populate("source owner")
       .sort({
-        deadline: -1,
+        deadline: 1,
       });
 
     if (!tasks) {
       return new NextResponse("Task not found", { status: 404 });
     }
 
-    return new NextResponse(JSON.stringify(tasks), { status: 200 });
+    const futureTasks = tasks.filter((task) => {
+      if (task.deadline >= currentDate) {
+        return task;
+      }
+    });
+
+    const deadTasks = tasks.filter((task) => {
+      if (task.deadline < currentDate) {
+        return task;
+      }
+    });
+
+    deadTasks.sort((a, b) => b.deadline - a.deadline);
+
+    const allTasks = futureTasks.concat(deadTasks);
+
+    return new NextResponse(JSON.stringify(allTasks), { status: 200 });
   } catch (error) {
     console.log(error);
 
