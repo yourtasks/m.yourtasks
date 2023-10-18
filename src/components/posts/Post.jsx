@@ -17,6 +17,7 @@ const Post = ({ data }) => {
     shares,
     source,
     deadline,
+    seen,
   } = data;
 
   console.log(createdAt);
@@ -31,6 +32,7 @@ const Post = ({ data }) => {
         <Task title={title} description={description} deadline={deadline} />
       )}
       <PostFooter
+        seen={seen}
         postId={_id}
         likes={likes}
         comments={comments}

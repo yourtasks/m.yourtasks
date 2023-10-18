@@ -15,7 +15,9 @@ const handler = NextAuth({
         try {
           await connectToDB();
 
-          const user = await User.findOne({ username });
+          const user = await User.findOne({ username }, { timeout: 20000 })
+            .select("username password email role name")
+            .lean();
           if (!user) throw new Error("User not found");
 
           const validatePassword = await compare(password, user.password);

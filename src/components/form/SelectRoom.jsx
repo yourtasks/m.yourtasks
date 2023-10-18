@@ -5,7 +5,7 @@ import { useState } from "react";
 import useSWR from "swr";
 
 const SelectRoom = ({ course, setCourse }) => {
-  const { data: courses } = useSWR(`/api/users/courses`, fetcher);
+  const { data: courses } = useSWR(`/api/users/courses/manages`, fetcher);
 
   const handleChange = (e) => {
     const { value } = e.target;

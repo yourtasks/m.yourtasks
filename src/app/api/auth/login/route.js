@@ -6,7 +6,7 @@ export const POST = async (request) => {
   const { username, password } = await request.json();
 
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).select("password");
 
     if (!user) {
       return new NextResponse("Wrong username", { status: 404 });

@@ -77,7 +77,7 @@ const Login = () => {
       setLoading(false);
       reset();
       toast.success("Account created successfully");
-      router.push("/login");
+      await signIn("credentials", { username, password });
     } catch (error) {
       console.log(error);
       setLoading(false);
