@@ -72,9 +72,6 @@ export default function PostFooter({ seen, postId, likes, comments, shares }) {
 
   return (
     <div className="flex flex-col gap-y-1">
-      <p className="px-4 text-[10px] opacity-50  text-end font-medium">
-        seen by {seen.length}
-      </p>
       <div className="flex items-center justify-between px-2 gap-x-2">
         {type === "task" ? (
           <FooterItem

@@ -12,14 +12,18 @@ const Announcement = ({ title, description, source }) => {
   };
 
   return (
-    <div className=" flex flex-col w-full py-2">
-      <h1 className="font-medium px-2 leading-5">{`${source.name} (${source.section}) - ${title}`}</h1>
-      <p
-        onClick={handleMore}
-        className={`px-2 text-xs leading-5 pt-2 ${!more && "line-clamp-5"}`}
-      >
-        {description}
-      </p>
+    <div className="w-full p-2">
+      <div className=" flex flex-col w-full py-2 click rounded-lg no-select">
+        <h1 className="font-semibold px-2 leading-5">{`${source.name} (${source.section}) - ${title}`}</h1>
+        <p
+          onClick={handleMore}
+          className={`font-medium px-2 text-xs leading-5 pt-2 ${
+            !more && "line-clamp-5"
+          }`}
+        >
+          {description}
+        </p>
+      </div>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import PostContainer from "./shared/PostContainer";
 import PostHeader from "./shared/PostHeader";
 import PostFooter from "./shared/PostFooter";
 import Task from "./Task";
+import PostSeen from "./shared/PostSeen";
 
 const Post = ({ data }) => {
   const {
@@ -31,6 +32,7 @@ const Post = ({ data }) => {
       {type === "task" && (
         <Task title={title} description={description} deadline={deadline} />
       )}
+      <PostSeen postId={_id} seen={seen} />
       <PostFooter
         seen={seen}
         postId={_id}

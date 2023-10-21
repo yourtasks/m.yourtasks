@@ -5,10 +5,12 @@ import InputField from "@/components/form/InputField";
 import axios from "axios";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 const Login = () => {
+  const router = useRouter();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -32,24 +34,20 @@ const Login = () => {
     e.preventDefault();
 
     setLoading(true);
-    try {
-      await axios.post(`/api/auth/login`, { username, password });
-      setError(null);
-      await signIn("credentials", { username, password, callbackUrl: "/" });
-
-      setLoading(false);
-      reset();
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-      if (error.response.status === 404) {
-        setError({ message: error.response.data, name: "username" });
-      } else if (error.response.status === 401) {
-        setError({ message: error.response.data, name: "password" });
-      } else {
-        toast.error("Something went wrong");
+    setError(null);
+    await signIn("credentials", { username, password, redirect: false }).then(
+      ({ ok, error }) => {
+        if (ok) {
+          router.refresh();
+        } else {
+          console.log(error);
+          toast.error(error);
+        }
       }
-    }
+    );
+
+    setLoading(false);
+    reset();
   };
 
   const handleChange = (e) => {

@@ -33,7 +33,7 @@ export const AnnouncementCard = ({ data }) => {
         <h1 className="font-semibold line-clamp-2">{`${source.section.toUpperCase()} ${
           source.name
         } - ${title}`}</h1>
-        <p className="text-sm font-medium line-clamp-3 opacity-80">
+        <p className="text-sm font-medium line-clamp-2 opacity-80">
           {description}
         </p>
       </div>

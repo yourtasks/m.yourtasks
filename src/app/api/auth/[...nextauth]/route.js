@@ -3,6 +3,8 @@ import { User } from "@/models/user";
 import { compare } from "bcrypt";
 import NextAuth from "next-auth/next";
 import Credentials from "next-auth/providers/credentials";
+import { redirect } from "next/navigation";
+import { NextResponse } from "next/server";
 
 const handler = NextAuth({
   providers: [
@@ -12,23 +14,17 @@ const handler = NextAuth({
       async authorize(profile) {
         const { username, password } = profile;
 
-        try {
-          await connectToDB();
+        await connectToDB();
 
-          const user = await User.findOne({ username }, { timeout: 20000 })
-            .select("username password email role name")
-            .lean();
-          if (!user) throw new Error("User not found");
+        const user = await User.findOne({ username }, { timeout: 20000 })
+          .select("username password email role name")
+          .lean();
+        if (!user) throw new Error("Wrong username");
 
-          const validatePassword = await compare(password, user.password);
-          if (!validatePassword) throw new Error("Wrong credentials");
+        const validatePassword = await compare(password, user.password);
+        if (!validatePassword) throw new Error("Incorrect password");
 
-          return user;
-        } catch (error) {
-          console.log(error);
-
-          return null;
-        }
+        return user;
       },
     }),
   ],
