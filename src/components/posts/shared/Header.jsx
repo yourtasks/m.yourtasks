@@ -1,7 +1,6 @@
 "use client";
 
 import OptionItem from "@/components/modal/option/OptionItem";
-import IconButton from "@/components/shared/IconButton";
 import Option from "@/components/shared/option/Option";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import moment from "moment/moment";
@@ -11,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BiEditAlt, BiFlag, BiLink, BiSolidBadgeCheck } from "react-icons/bi";
 
-const PostHeader = ({ createdAt, owner, postId, type }) => {
+const Header = ({ createdAt, owner, postId, type }) => {
   const router = useRouter();
   const { data: user } = useCurrentUser();
   const [show, setShow] = useState(false);
@@ -49,10 +48,10 @@ const PostHeader = ({ createdAt, owner, postId, type }) => {
           </div>
         </div>
         <div className="flex flex-col w-full">
-          <div className="text-sm flex w-full flex-wrap items-center gap-x-1">
+          <div className="text-xs flex w-full flex-wrap items-center gap-x-1">
             <h1 className="font-semibold px-1 rounded-md click">{`${firstname} ${lastname}`}</h1>
             <div className="text-sky-500">
-              <BiSolidBadgeCheck size={20} />
+              <BiSolidBadgeCheck size={16} />
             </div>
             <p className="font-medium opacity-70">added an</p>
             <Link
@@ -93,4 +92,4 @@ const PostHeader = ({ createdAt, owner, postId, type }) => {
   );
 };
 
-export default PostHeader;
+export default Header;

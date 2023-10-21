@@ -6,7 +6,10 @@ const IconButton = ({ children, onClick }) => {
   };
 
   return (
-    <button onClick={handleClick} className="click p-2 rounded-full">
+    <button
+      onClick={handleClick}
+      className="click p-2 rounded-full h-fit w-fit"
+    >
       {children}
     </button>
   );

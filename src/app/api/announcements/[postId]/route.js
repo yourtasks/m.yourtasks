@@ -7,7 +7,7 @@ export const GET = async (request, { params }) => {
   await protect();
 
   try {
-    const announcement = await Announcement.findById(postId);
+    const announcement = await Announcement.findById(postId).populate("owner");
 
     if (!announcement) {
       return new NextResponse("Announcement not found", { status: 404 });

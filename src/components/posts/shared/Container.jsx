@@ -1,6 +1,6 @@
 import React from "react";
 
-const PostContainer = ({ children }) => {
+const Container = ({ children }) => {
   return (
     <div className="w-full py-2 card border-b-[1px] border-color">
       {children}
@@ -8,4 +8,4 @@ const PostContainer = ({ children }) => {
   );
 };
 
-export default PostContainer;
+export default Container;

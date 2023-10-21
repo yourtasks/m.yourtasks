@@ -2,6 +2,7 @@
 import useCurrentUser from "@/hooks/useCurrentUser";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import {
@@ -31,7 +32,16 @@ const Seperator = () => {
   );
 };
 
-export default function PostFooter({ seen, postId, likes, comments, shares }) {
+export default function Footer({
+  seen,
+  postId,
+  likes,
+  comments,
+  shares,
+  hideComment,
+}) {
+  const router = useRouter();
+
   const { data: user } = useCurrentUser();
   console.log(likes);
   const [liking, setLiking] = useState(false);
@@ -95,8 +105,11 @@ export default function PostFooter({ seen, postId, likes, comments, shares }) {
           />
         )}
         <Seperator />
+
         <FooterItem
-          onClick={handleComment}
+          onClick={() => {
+            router.push(`/announcements/v/${postId}`);
+          }}
           Icon={<BiCommentDetail size={20} />}
           count={comments.length}
         />

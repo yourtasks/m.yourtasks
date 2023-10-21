@@ -1,9 +1,9 @@
 import Announcement from "@/components/posts/Announcement";
-import PostContainer from "./shared/PostContainer";
-import PostHeader from "./shared/PostHeader";
-import PostFooter from "./shared/PostFooter";
 import Task from "./Task";
-import PostSeen from "./shared/PostSeen";
+import Container from "./shared/Container";
+import Footer from "./shared/Footer";
+import Header from "./shared/Header";
+import Seen from "./shared/Seen";
 
 const Post = ({ data }) => {
   const {
@@ -24,23 +24,23 @@ const Post = ({ data }) => {
   console.log(createdAt);
 
   return (
-    <PostContainer>
-      <PostHeader postId={_id} createdAt={createdAt} owner={owner} />
+    <Container>
+      <Header postId={_id} createdAt={createdAt} owner={owner} />
       {type === "announcement" && (
         <Announcement title={title} description={description} source={source} />
       )}
       {type === "task" && (
         <Task title={title} description={description} deadline={deadline} />
       )}
-      <PostSeen postId={_id} seen={seen} />
-      <PostFooter
+      <Seen postId={_id} seen={seen} />
+      <Footer
         seen={seen}
         postId={_id}
         likes={likes}
         comments={comments}
         shares={shares}
       />
-    </PostContainer>
+    </Container>
   );
 };
 
