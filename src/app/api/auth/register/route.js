@@ -1,3 +1,4 @@
+import { capitalizeWord } from "@/libs/capitalizeWord";
 import { connectToDB } from "@/libs/database";
 import { generateCode } from "@/libs/generateCode";
 import { sendMail } from "@/libs/sendMail";
@@ -9,15 +10,16 @@ import { NextResponse } from "next/server";
 export const POST = async (request) => {
   const {
     username: orgUsername,
-    firstname,
-    lastname,
-    email: orgEmail,
+    firstname: orgFirstname,
+    lastname: orgLastname,
+    email,
     password,
     studentId,
   } = await request.json();
 
   const username = orgUsername.toLowerCase();
-  const email = orgEmail.toLowerCase();
+  const firstname = capitalizeWord(orgFirstname);
+  const lastname = capitalizeWord(orgLastname);
 
   console.log(username, email, firstname, lastname);
 

@@ -77,7 +77,7 @@ const Login = () => {
       setLoading(false);
       reset();
       toast.success("Account created successfully");
-      await signIn("credentials", { username, password });
+      await signIn("credentials", { username, password, callbackUrl: "/" });
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -103,6 +103,13 @@ const Login = () => {
 
     if (name === "username" || name === "email") {
       value = value.replace(/\s/g, "");
+    }
+
+    if (name === "studentId") {
+      setFormdata((prev) => ({
+        ...prev,
+        email: value.concat("@student.green.edu.bd"),
+      }));
     }
 
     setFormdata((prev) => ({ ...prev, [name]: value }));
@@ -154,7 +161,7 @@ const Login = () => {
             style={"capitalize"}
           />
           <InputField
-            disabled={loading}
+            disabled={true}
             type="email"
             name="email"
             placeholder="Email"

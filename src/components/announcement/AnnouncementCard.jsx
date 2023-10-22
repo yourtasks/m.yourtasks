@@ -4,8 +4,16 @@ import axios from "axios";
 import moment from "moment";
 import Image from "next/image";
 import React, { useEffect } from "react";
-import { BsEyeFill } from "react-icons/bs";
+import { BsDot, BsEyeFill } from "react-icons/bs";
 import useSWR from "swr";
+import CardButton from "./CardButton";
+import {
+  BiHeart,
+  BiSolidHeart,
+  BiCommentDetail,
+  BiShare,
+  BiCheckCircle,
+} from "react-icons/bi";
 
 export const AnnouncementCard = ({ data }) => {
   const { data: user } = useCurrentUser();
@@ -27,9 +35,11 @@ export const AnnouncementCard = ({ data }) => {
   return (
     <div className="flex flex-col card rounded-lg no-select">
       <div className="flex flex-col gap-y-1 click p-4 rounded-lg">
-        <p className="text-xs font-semibold opacity-50">
-          {moment(createdAt).format("DD MMMM YY")}
-        </p>
+        <div className="flex items-center gap-x-2 text-xs font-medium opacity-50">
+          <p className="">{moment(createdAt).format("DD MMMM YY")}</p>
+          <BsDot size={16} />
+          <p>seen {15}</p>
+        </div>
         <h1 className="font-semibold line-clamp-2">{`${source.section.toUpperCase()} ${
           source.name
         } - ${title}`}</h1>
@@ -56,11 +66,8 @@ export const AnnouncementCard = ({ data }) => {
             </p>
           </div>
         </div>
-        <div>
-          <div className="flex items-center justify-end gap-x-2 opacity-70 click px-4 py-2 rounded-lg">
-            <BsEyeFill size={15} />
-            <p className="text-xs font-semibold">{seen.length}</p>
-          </div>
+        <div className="flex items-center gap-x-2">
+          <CardButton count={10} Icon={<BiShare size={25} />} />
         </div>
       </div>
     </div>

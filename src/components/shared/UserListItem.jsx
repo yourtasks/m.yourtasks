@@ -3,11 +3,18 @@ import Image from "next/image";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import UserListOption from "./option/UserListOption";
 import { useState } from "react";
-import { MdOutlineAddModerator, MdOutlineCampaign } from "react-icons/md";
+import {
+  MdDeleteOutline,
+  MdOutlineAddModerator,
+  MdOutlineCampaign,
+} from "react-icons/md";
 import Option from "./option/Option";
 import OptionItem from "../modal/option/OptionItem";
 import { BiFlag } from "react-icons/bi";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { mutate } from "swr";
 
 const UserListItem = ({ data }) => {
   const router = useRouter();
@@ -34,6 +41,19 @@ const UserListItem = ({ data }) => {
   const makeCR = () => {
     router.push(`users/${username}/make-cr`);
     handleClose();
+  };
+
+  const deleteUser = async () => {
+    try {
+      await axios.delete(`/api/users/${username}`);
+
+      toast.success("User has been deleted");
+      await mutate(`/api/users`);
+      handleClose();
+    } catch (error) {
+      console.log(error);
+      toast.error("Couldn't delete the user");
+    }
   };
 
   return (
@@ -84,6 +104,11 @@ const UserListItem = ({ data }) => {
             Icon={<BiFlag size={20} />}
             title="Suspend"
             setClose={handleClose}
+          />
+          <OptionItem
+            Icon={<MdDeleteOutline size={20} />}
+            title="delete"
+            setClose={deleteUser}
           />
         </Option>
       )}

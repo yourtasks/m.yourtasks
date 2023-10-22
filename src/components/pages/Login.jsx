@@ -2,7 +2,6 @@
 
 import Button from "@/components/form/Button";
 import InputField from "@/components/form/InputField";
-import axios from "axios";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
