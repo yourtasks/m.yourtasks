@@ -5,7 +5,6 @@ import Option from "@/components/shared/option/Option";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import moment from "moment/moment";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BiEditAlt, BiFlag, BiLink, BiSolidBadgeCheck } from "react-icons/bi";
@@ -53,13 +52,6 @@ const Header = ({ createdAt, owner, postId, type }) => {
             <div className="text-sky-500">
               <BiSolidBadgeCheck size={16} />
             </div>
-            <p className="font-medium opacity-70">added an</p>
-            <Link
-              href={`/announcements`}
-              className="font-semibold px-1 click no-select rounded-md"
-            >
-              Announcement
-            </Link>
           </div>
           <p className="font-medium text-[10px] opacity-70 px-1">{postTime}</p>
         </div>

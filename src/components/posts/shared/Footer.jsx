@@ -71,7 +71,7 @@ export default function Footer({
     console.log("like");
   };
   const handleComment = async () => {
-    console.log("comment");
+    router.push(`/announcements/${postId}/view`);
   };
   const handleShare = async () => {
     console.log("share");
@@ -107,9 +107,7 @@ export default function Footer({
         <Seperator />
 
         <FooterItem
-          onClick={() => {
-            router.push(`/announcements/v/${postId}`);
-          }}
+          onClick={handleComment}
           Icon={<BiCommentDetail size={20} />}
           count={comments.length}
         />

@@ -1,11 +1,13 @@
 "use client";
 
+import CommentBar from "@/components/posts/shared/CommentBar";
 import CommentList from "@/components/posts/shared/CommentList";
 import PostContainer from "@/components/posts/shared/Container";
 import Description from "@/components/posts/shared/Description";
 import Footer from "@/components/posts/shared/Footer";
 import PostHeader from "@/components/posts/shared/Header";
 import Title from "@/components/posts/shared/Title";
+import HeaderBack from "@/components/shared/HeaderBack";
 import PostSkeleton from "@/components/skeleton/PostSkeleton";
 import { fetcher } from "@/libs/fetcher";
 import useSWR from "swr";
@@ -30,9 +32,11 @@ const Page = ({ params }) => {
     type,
   } = post ? post : {};
 
-  console.log(post);
   return (
-    <div className="both-space w-full h-full overflow-y-auto flex flex-col gap-y-2">
+    <div className="pb-[56px] w-full h-full overflow-y-auto flex flex-col gap-y-2">
+      <HeaderBack
+        title={`${owner ? owner.name.firstname : "A person"}'s announcement`}
+      />
       {isLoading ? (
         <PostSkeleton />
       ) : (
@@ -59,7 +63,8 @@ const Page = ({ params }) => {
                 shares={shares}
               />
             </PostContainer>
-            <CommentList />
+            <CommentList apiUrl={`/api/announcements/${_id}/comments`} />
+            <CommentBar apiUrl={`/api/announcements/${_id}/comments`} />
           </>
         )
       )}

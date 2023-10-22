@@ -27,7 +27,12 @@ const Post = ({ data }) => {
     <Container>
       <Header postId={_id} createdAt={createdAt} owner={owner} />
       {type === "announcement" && (
-        <Announcement title={title} description={description} source={source} />
+        <Announcement
+          title={title}
+          description={description}
+          source={source}
+          owner={owner}
+        />
       )}
       {type === "task" && (
         <Task title={title} description={description} deadline={deadline} />

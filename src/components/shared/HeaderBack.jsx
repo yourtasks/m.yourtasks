@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const HeaderBack = ({ title, link = "/" }) => {
   return (
-    <div className="h-fit w-full border-b-[1px] border-color px-4 py-2 flex items-center gap-x-2 card">
+    <div className="sticky top-0 left-0 z-10 h-fit w-full border-b-[1px] border-color px-4 py-2 flex items-center gap-x-2 card">
       <Link href={link} className="p-2 click rounded-full">
         <MdArrowBackIosNew size={20} />
       </Link>

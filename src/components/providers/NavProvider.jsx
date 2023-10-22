@@ -14,6 +14,7 @@ const NavProvider = () => {
     "create",
     "users",
     "courses",
+    "view",
   ];
 
   const hide =

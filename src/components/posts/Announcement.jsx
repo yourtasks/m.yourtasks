@@ -1,29 +1,21 @@
-"use client";
+import PressToCopy from "../shared/PressToCopy";
+import Title from "./shared/Title";
+import Description from "./shared/Description";
+import { capitalizeWord } from "@/libs/capitalizeWord";
 
-import { useState } from "react";
-
-const Announcement = ({ title, description, source }) => {
-  const [more, setMore] = useState(false);
-
-  console.log(source);
-
-  const handleMore = () => {
-    setMore((prev) => !prev);
-  };
-
+const Announcement = ({ title, description, source, owner }) => {
   return (
-    <div className="w-full p-2">
-      <div className=" flex flex-col w-full py-2 click rounded-lg no-select">
-        <h1 className="font-semibold px-2 leading-5">{`${source.name} (${source.section}) - ${title}`}</h1>
-        <p
-          onClick={handleMore}
-          className={`font-medium px-2 text-xs leading-5 pt-2 ${
-            !more && "line-clamp-5"
-          }`}
-        >
-          {description}
-        </p>
-      </div>
+    <div className="p-1">
+      <PressToCopy
+        textToCopy={`${capitalizeWord(`${source.name}`)} (${capitalizeWord(
+          source.section
+        )})\n\n${title}\n${description}\n\n\posted by ${owner.name.firstname} ${
+          owner.name.lastname
+        }`}
+      >
+        <Title>{`${source.name} (${source.section}) - ${title}`}</Title>
+        <Description>{description}</Description>
+      </PressToCopy>
     </div>
   );
 };
