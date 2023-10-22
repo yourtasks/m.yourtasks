@@ -2,6 +2,7 @@
 import { AnnouncementCard } from "@/components/announcement/AnnouncementCard";
 import Empty from "@/components/shared/Empty";
 import { fetcher } from "@/libs/fetcher";
+import { MdCloudDone } from "react-icons/md";
 import useSWR from "swr";
 
 const Page = () => {

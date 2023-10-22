@@ -36,11 +36,7 @@ export const GET = async (request) => {
 export const POST = async (request) => {
   const { title, description, course } = await request.json();
 
-  const user = await getAuthUser();
-
-  if (!user) {
-    return new NextResponse("Unauthorized", { status: 400 });
-  }
+  const user = await protectRoute();
 
   try {
     const newAnn = await Announcement.create({
@@ -50,7 +46,11 @@ export const POST = async (request) => {
       source: course,
     });
 
-    console.log(newAnn);
+    if (course === "all") {
+      await Course.updateMany({}, { $addToSet: { announcements: newAnn._id } });
+
+      return new NextResponse("Posted", { status: 200 });
+    }
 
     await Course.findByIdAndUpdate(course, {
       $addToSet: { announcements: newAnn._id },

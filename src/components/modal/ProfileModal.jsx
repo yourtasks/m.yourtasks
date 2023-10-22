@@ -10,6 +10,7 @@ import { BiBookAlt, BiHelpCircle, BiLogOut } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "@/libs/fetcher";
+import Link from "next/link";
 const List = ({ children }) => {
   return <div className="w-full flex flex-col gap-y-2">{children}</div>;
 };
@@ -51,7 +52,7 @@ const Seperator = ({ title }) => {
 };
 
 const ProfileModal = () => {
-  const { data: user } = useSWR(`/api/current`, fetcher);
+  const { data: user, isLoading } = useSWR(`/api/current`, fetcher);
 
   const router = useRouter();
   const { isOpen, setClose } = useProfile();
@@ -67,26 +68,37 @@ const ProfileModal = () => {
           className="fixed top-0 left-0 w-full h-full invert-bg opacity-30"
         />
         <div className="absolute z-10 top-0 right-0 h-full w-3/5 card overflow-y-auto px-2 no-select">
-          <div className="w-full flex items-center gap-x-2 click p-2 rounded-lg my-2">
-            <div className="relative h-14 w-14 p-2 rounded-lg">
-              <Image
-                src={"/profile-avatar.jpg"}
-                alt="profile"
-                fill={true}
-                className="object-cover rounded-full"
-              />
+          {isLoading ? (
+            <div>
+              <div className="h-10 w-10 rounded-full skeleton" />
             </div>
-            <div className="flex flex-col gap-y-2">
-              {user && (
-                <>
-                  <p className="text-sm font-medium">
-                    {user.name.firstname + " " + user.name.lastname}
-                  </p>
-                  <p>{user.role}</p>
-                </>
-              )}
-            </div>
-          </div>
+          ) : (
+            user && (
+              <Link
+                href={`/${user.username}`}
+                className="w-full flex items-center gap-x-2 click p-2 rounded-lg my-2"
+              >
+                <div className="relative h-14 w-14 p-2 rounded-lg">
+                  <Image
+                    src={"/profile-avatar.jpg"}
+                    alt="profile"
+                    fill={true}
+                    className="object-cover rounded-full"
+                  />
+                </div>
+                <div className="flex flex-col gap-y-2">
+                  {user && (
+                    <>
+                      <p className="text-sm font-medium">
+                        {user.name.firstname + " " + user.name.lastname}
+                      </p>
+                      <p>{user.role}</p>
+                    </>
+                  )}
+                </div>
+              </Link>
+            )
+          )}
           <div></div>
           <Seperator title="Profile" />
           <List>

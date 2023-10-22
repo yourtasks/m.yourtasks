@@ -9,7 +9,7 @@ export const GET = async () => {
 
   try {
     const courses = await Course.find(
-      !isAdmin && { cr: { $in: user._id } }
+      isAdmin ? {} : { cr: { $in: user._id } }
     ).select("name code roomCode section");
 
     return new NextResponse(JSON.stringify(courses), { status: 200 });

@@ -9,10 +9,14 @@ import { BiCheck, BiCheckDouble, BiSolidCheckCircle } from "react-icons/bi";
 import { BsDot, BsEyeFill, BsThreeDotsVertical } from "react-icons/bs";
 import { mutate } from "swr";
 
-export default function TaskItem({ data, completed }) {
+export default function TaskItem({
+  data,
+  completed,
+  onSelect,
+  selected,
+  loading,
+}) {
   const [checked, setChecked] = useState(completed ? completed : false);
-  const [loading, setLoading] = useState(false);
-  const user = useCurrentUser();
   const {
     _id,
     title,
@@ -23,51 +27,35 @@ export default function TaskItem({ data, completed }) {
     seen,
     hasCompleted,
   } = data;
+  const spin = selected.includes(_id) && loading;
   const timeDifference = new Date(deadline) - new Date();
-  console.log(timeDifference);
   const hoursLeft = timeDifference / (1000 * 60 * 60);
   const oneDayLeft = hoursLeft <= 23;
   const late = new Date(deadline) < new Date();
 
-  console.log(oneDayLeft);
-
-  const createdAgo = moment(createdAt).fromNow();
   const deadlineTime = moment(deadline).fromNow();
 
-  useEffect(() => {
-    const view = async () => {
-      try {
-        await axios.put(`/api/tasks/${_id}/seen`);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    if (user) {
-      !seen.includes(user._id) && view();
-    }
-  }, [user, seen, _id]);
-
   const handleChecked = async () => {
-    if (completed) {
+    if (!onSelect) {
       return;
     }
 
-    setChecked(true);
-    setLoading(true);
-
-    try {
-      await axios.put(`/api/tasks/${_id}/completed`);
-      await mutate(`/api/tasks`);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      setChecked(false);
-      toast.error("Could not mark as complete");
+    if (checked) {
+      setChecked((prev) => !prev);
+      const filtered = selected.filter((item) => item !== _id);
+      onSelect(filtered);
+      return;
     }
+    setChecked((prev) => !prev);
+
+    onSelect((prev) => [...prev, _id]);
   };
 
   return (
-    <div onClick={handleChecked} className={`flex items-center gap-x-1`}>
+    <button
+      onClick={handleChecked}
+      className={`w-full flex items-center gap-x-1`}
+    >
       <div
         className={`rounded-full flex items-center justify-center ${
           checked ? "bg-green-500" : "card"
@@ -84,7 +72,7 @@ export default function TaskItem({ data, completed }) {
           checked && "opacity-70"
         }`}
       >
-        {loading && (
+        {spin && (
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
             <div className="h-fit w-fit text-green-500 animate-spin">
               <AiOutlineLoading size={30} />
@@ -105,10 +93,17 @@ export default function TaskItem({ data, completed }) {
             {deadlineTime}
           </p>
         </div>
-        <h1 className={`font-semibold ${checked && "opacity-50 line-through"}`}>
+
+        {/* Body */}
+
+        <h1
+          className={`text-start font-semibold ${
+            checked && "opacity-50 line-through"
+          }`}
+        >
           {title}
         </h1>
-        <div className="flex items-center justify-end gap-x-4 opacity-50">
+        <div className="text-start flex items-center justify-end gap-x-4 opacity-50">
           <p className="text-xs font-medium line-clamp-1 w-full overflow-ellipsis">{`${source.section.toUpperCase()} - ${
             source.name
           }`}</p>
@@ -126,6 +121,6 @@ export default function TaskItem({ data, completed }) {
           )}
         </div>
       </div>
-    </div>
+    </button>
   );
 }

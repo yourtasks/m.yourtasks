@@ -4,6 +4,8 @@ import Post from "../posts/Post";
 import useSWR from "swr";
 import { fetcher } from "@/libs/fetcher";
 import PostSkeleton from "../skeleton/PostSkeleton";
+import { MdCloudDone } from "react-icons/md";
+import EndPost from "../shared/EndPost";
 
 const Home = () => {
   const { data: posts, isLoading } = useSWR(`/api/announcements`, fetcher);
@@ -18,7 +20,12 @@ const Home = () => {
           ))}
         </>
       ) : posts && posts.length > 0 ? (
-        posts.map((post) => <Post key={post._id} data={post} />)
+        <>
+          {posts.map((post) => (
+            <Post key={post._id} data={post} />
+          ))}
+          <EndPost />
+        </>
       ) : (
         <div className="h-full w-full flex items-center justify-center text-xl font-semibold">
           No post found

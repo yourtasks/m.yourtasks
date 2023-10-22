@@ -17,6 +17,21 @@ export const GET = async (request, { params }) => {
       .populate("owner")
       .sort({ createdAt: -1 });
 
+    comments.sort((a, b) => {
+      const likes = b.likes.length - a.likes.length;
+      const dislikes = a.dislikes.length - b.dislikes.length;
+
+      if (likes === 0 && dislikes === 0) {
+        return 0;
+      }
+
+      if (likes === 0) {
+        return -1;
+      }
+
+      return likes || dislikes;
+    });
+
     return new NextResponse(JSON.stringify(comments), { status: 200 });
   } catch (error) {
     console.log(error);

@@ -26,7 +26,12 @@ const Page = () => {
           </div>
         ) : tasks && tasks.length > 0 ? (
           tasks.map((task) => (
-            <TaskItem key={task._id} data={task} completed={true} />
+            <TaskItem
+              key={task._id}
+              data={task}
+              completed={true}
+              selected={tasks}
+            />
           ))
         ) : (
           <Empty title="No completed task" />

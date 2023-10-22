@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 
 export const GET = async (request) => {
   const user = await protectRoute();
-  console.log(user._id);
   const coursesId = user.studentInformation.courses.map((course) => course);
 
   const currentDate = new Date();
@@ -51,13 +50,15 @@ export const GET = async (request) => {
 export const POST = async (request) => {
   const { title, description, deadline, course } = await request.json();
 
-  const user = await getAuthUser();
-
-  if (!user) {
-    return new NextResponse("Unauthorized", { status: 400 });
-  }
+  const user = await protectRoute();
 
   try {
+    if (course === "all") {
+      return new NextResponse("Cannot create same tasks for all section", {
+        status: 400,
+      });
+    }
+
     const task = await Task.create({
       title,
       description,
@@ -71,5 +72,24 @@ export const POST = async (request) => {
     console.log(error);
 
     return new NextResponse("Failed to create task", { status: 500 });
+  }
+};
+
+export const PUT = async (request) => {
+  const { tasks } = await request.json();
+
+  const user = await protectRoute();
+
+  try {
+    await Task.updateMany(
+      { _id: { $in: tasks } },
+      { $addToSet: { hasCompleted: user._id } }
+    );
+
+    return new NextResponse("Task marked as completed", { status: 200 });
+  } catch (error) {
+    console.log(error);
+
+    return new NextResponse("Failed to mark as completed", { status: 500 });
   }
 };

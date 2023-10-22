@@ -38,7 +38,7 @@ const TopNav = () => {
         <h1 className="text-sky-500 text-xl font-semibold tracking-wider">
           YourTasks
         </h1>
-        <p className="text-[10px] font-semibold bg-sky-500 text-white rounded-md h-fit px-1">
+        <p className="text-[10px] font-semibold bg-rose-500 text-white rounded-md h-fit px-1">
           Beta
         </p>
       </div>
