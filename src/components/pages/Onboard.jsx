@@ -75,7 +75,7 @@ const Course = ({ data, rooms, setRooms, canSubmit }) => {
 const Onboard = () => {
   const router = useRouter();
   const { data: courses, isLoading } = useSWR(`/api/courses`, fetcher);
-  const { data: user, isLoading: loadingUser } = useCurrentUser();
+  const { data: user, isLoading: loadingUser, mutate } = useCurrentUser();
   const [loading, setLoading] = useState(false);
   const [rooms, setRooms] = useState([]);
   const canSubmit = rooms.length < 8;
@@ -83,14 +83,11 @@ const Onboard = () => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.put(
-        `/api/users/update/student-information`,
-        { rooms }
-      );
-      console.log(data);
-      setLoading(false);
-      router.push("/");
+      await axios.put(`/api/users/update/student-information`, { rooms });
       setRooms([]);
+      setLoading(false);
+      await mutate();
+      router.push("/");
     } catch (error) {
       console.log(error);
       setLoading(false);

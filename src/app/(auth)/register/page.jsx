@@ -5,12 +5,10 @@ import InputField from "@/components/form/InputField";
 import axios from "axios";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 const Login = () => {
-  const router = useRouter();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -77,7 +75,10 @@ const Login = () => {
       setLoading(false);
       reset();
       toast.success("Account created successfully");
-      await signIn("credentials", { username, password, callbackUrl: "/" });
+      console.log("first");
+      setTimeout(() => {
+        signIn("credentials", { username, password, callbackUrl: "/" });
+      }, 1000);
     } catch (error) {
       console.log(error);
       setLoading(false);

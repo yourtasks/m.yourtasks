@@ -12,6 +12,8 @@ import toast from "react-hot-toast";
 import useSWR, { mutate } from "swr";
 
 const Page = () => {
+  console.log(process.env.NEXT_PUBLIC_BASE_URL);
+
   const [selected, setSelected] = useState([]);
   const [loading, setLoading] = useState(false);
   const canSubmit = selected.length > 0;

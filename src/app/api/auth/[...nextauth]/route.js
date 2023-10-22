@@ -3,8 +3,6 @@ import { User } from "@/models/user";
 import { compare } from "bcrypt";
 import NextAuth from "next-auth/next";
 import Credentials from "next-auth/providers/credentials";
-import { redirect } from "next/navigation";
-import { NextResponse } from "next/server";
 
 const handler = NextAuth({
   providers: [

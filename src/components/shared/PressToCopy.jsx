@@ -35,6 +35,8 @@ const PressToCopy = ({ children, textToCopy }) => {
     <div
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
+      onTouchStart={handleMouseDown}
+      onTouchEnd={handleMouseUp}
       className="p-1 click rounded-md w-full no-select"
     >
       {children}

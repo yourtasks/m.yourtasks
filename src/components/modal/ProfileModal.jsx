@@ -74,17 +74,22 @@ const ProfileModal = () => {
             </div>
           ) : (
             user && (
-              <Link
-                href={`/${user.username}`}
+              <button
+                onClick={() => {
+                  router.push(`/${user.username}`);
+                  setClose();
+                }}
                 className="w-full flex items-center gap-x-2 click p-2 rounded-lg my-2"
               >
-                <div className="relative h-14 w-14 p-2 rounded-lg">
-                  <Image
-                    src={"/profile-avatar.jpg"}
-                    alt="profile"
-                    fill={true}
-                    className="object-cover rounded-full"
-                  />
+                <div>
+                  <div className="relative h-14 w-14 p-2 rounded-lg">
+                    <Image
+                      src={"/profile-avatar.jpg"}
+                      alt="profile"
+                      fill={true}
+                      className="object-cover rounded-full"
+                    />
+                  </div>
                 </div>
                 <div className="flex flex-col gap-y-2">
                   {user && (
@@ -96,7 +101,7 @@ const ProfileModal = () => {
                     </>
                   )}
                 </div>
-              </Link>
+              </button>
             )
           )}
           <div></div>
@@ -119,7 +124,7 @@ const ProfileModal = () => {
                   Icon={<LiaBookMedicalSolid size={20} />}
                 />
                 <ButtonItem
-                  title="Add new user"
+                  title="Manage users"
                   Icon={<BsPersonAdd size={20} />}
                   link="/users"
                 />

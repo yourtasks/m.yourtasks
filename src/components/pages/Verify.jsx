@@ -3,33 +3,41 @@
 import Button from "@/components/form/Button";
 import InputField from "@/components/form/InputField";
 import useCurrentUser from "@/hooks/useCurrentUser";
+import { fetcher } from "@/libs/fetcher";
 import axios from "axios";
+import moment from "moment";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { BiLogOut, BiLogOutCircle } from "react-icons/bi";
+import useSWR from "swr";
 
 const Verify = () => {
   const { data: user } = useCurrentUser();
+  const { data: token, mutate } = useSWR(`/api/token`, fetcher);
+
+  const canResend = token
+    ? new Date() - new Date(token.updatedAt) > 60000
+    : false;
+
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState("");
   const canSubmit = code.length === 6;
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setLoading(true);
 
     try {
-      const { data } = await axios.put(`/api/token/verify`, {
+      await axios.put(`/api/token/verify`, {
         code,
       });
 
-      setLoading(false);
       router.push("/onboarding");
       toast.success("Email verified successfully");
+      setLoading(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -49,6 +57,7 @@ const Verify = () => {
     try {
       await axios.get(`/api/token/resend-token`);
       toast("A code has sent to your email address");
+      await mutate();
     } catch (error) {
       console.log(error);
       toast.error("Couldn't perform the operation");
@@ -102,7 +111,7 @@ const Verify = () => {
           />
         </form>
         <button
-          disabled={loading}
+          disabled={!canResend}
           onClick={handleResetCode}
           className={`text-xs rounded-lg py-2 font-medium disabled:opacity-30 ${
             !loading && "click"

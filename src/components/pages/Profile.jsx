@@ -13,7 +13,7 @@ const Profile = () => {
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center gap-x-4">
             <div>
-              <div className="h-28 w-28 relative">
+              <div className="h-20 w-20 relative">
                 <Image
                   src={"/profile-avatar.jpg"}
                   alt="profile"
@@ -23,11 +23,11 @@ const Profile = () => {
               </div>
             </div>
             <div>
-              <p className="text-sm font-semibold opacity-60">mofazzal</p>
+              <p className="text-xs font-semibold opacity-60">mofazzal</p>
               <div className="flex items-center gap-x-2">
-                <h1 className="text-lg font-semibold">Md Mofazzal Hossain</h1>
+                <h1 className="font-semibold">Md Mofazzal Hossain</h1>
                 <div className="text-sky-500">
-                  <MdVerified size={25} />
+                  <MdVerified size={20} />
                 </div>
               </div>
               <div className="my-4">
