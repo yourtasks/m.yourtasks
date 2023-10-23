@@ -39,8 +39,7 @@ const Comment = ({ data, handleLike, handleDislike, mutate }) => {
       <div className="w-full flex flex-col no-select">
         <div className="text-[10px] flex items-center gap-x-1 opacity-70 flex-wrap">
           <h1 className="font-semibold px-1">
-            {owner &&
-              `${owner.name.firstname} ${owner.name.lastname} • ${timeAgo}`}
+            {`${owner.name.firstname} ${owner.name.lastname} • ${timeAgo}`}
           </h1>
         </div>
         <p className="text-xs leading-5 font-medium click no-select rounded-md p-1">
