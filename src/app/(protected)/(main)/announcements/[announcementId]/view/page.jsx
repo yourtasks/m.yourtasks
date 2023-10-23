@@ -15,7 +15,6 @@ import toast from "react-hot-toast";
 import useSWR from "swr";
 
 const Page = ({ params }) => {
-  console.log(params.announcementId);
   const {
     data: post,
     isLoading,
@@ -34,6 +33,8 @@ const Page = ({ params }) => {
     _id,
     type,
   } = post ? post : {};
+
+  console.log(owner);
 
   const handleLike = async (commentId) => {
     try {
@@ -60,12 +61,14 @@ const Page = ({ params }) => {
   return (
     <div className="pb-[56px] w-full h-full overflow-y-auto flex flex-col gap-y-2">
       <HeaderBack
-        title={`${owner ? owner.name.firstname : "A person"}'s announcement`}
+        title={`${
+          owner && owner ? owner.name.firstname : "A person"
+        }'s announcement`}
       />
       {isLoading ? (
         <PostSkeleton />
       ) : (
-        type && (
+        owner && (
           <>
             <PostContainer>
               <PostHeader
