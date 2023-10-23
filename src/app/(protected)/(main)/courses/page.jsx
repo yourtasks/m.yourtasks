@@ -14,7 +14,12 @@ const Page = () => {
       <HeaderBack title="All of your courses" />
       <div className="w-full h-full p-4 overflow-y-auto flex flex-col gap-y-4">
         {isLoading ? (
-          <CourseSkeleton />
+          <>
+            <CourseSkeleton />
+            <CourseSkeleton />
+            <CourseSkeleton />
+            <CourseSkeleton />
+          </>
         ) : courses && courses.length > 0 ? (
           courses.map((course) => <CourseCard key={course._id} data={course} />)
         ) : (

@@ -20,22 +20,22 @@ const CourseCard = ({ data }) => {
       )}
       <div className=" w-full flex justify-between items-center">
         <div className="flex flex-col gap-y-1">
-          <p className="text-sm font-semibold opacity-70 uppercase">{code}</p>
-          <h1 className="text-lg font-medium capitalize">{`${name} - ${section}`}</h1>
+          <p className="text-xs font-semibold opacity-70 uppercase">{code}</p>
+          <h1 className="font-medium capitalize">{`${name} - ${section}`}</h1>
           <div>
             <div className="flex items-center gap-x-2 font-medium opacity-50">
-              <BsFillPersonFill size={20} />
-              <p>{students.length}</p>
+              <BsFillPersonFill size={15} />
+              <p className="text-xs">{students.length}</p>
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-y-2">
+        <div className="text-xs flex flex-col gap-y-2">
           <div className="flex items-center gap-x-2">
-            <MdOutlineCampaign size={25} />
+            <MdOutlineCampaign size={20} />
             <p className="font-medium">{announcements.length}</p>
           </div>
           <div className="flex items-center gap-x-2">
-            <BiTask size={25} />
+            <BiTask size={20} />
             <p className="font-medium">{tasks.length}</p>
           </div>
         </div>

@@ -4,6 +4,7 @@ let isConnected = false;
 
 export const connectToDB = async () => {
   if (isConnected) {
+    console.log("Already connected to database");
     return;
   }
 

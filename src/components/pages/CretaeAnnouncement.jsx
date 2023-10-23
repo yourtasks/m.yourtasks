@@ -18,6 +18,7 @@ const CreateAnnouncement = () => {
   });
 
   const { title, description } = formdata;
+  const canSubmit = title !== "" && description !== "";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,26 +51,35 @@ const CreateAnnouncement = () => {
   return (
     <div className="w-full h-full flex flex-col">
       <HeaderBack title="Announcement creation" />
-      <div className="h-full w-full flex flex-col gap-y-4 items-center justify-center">
-        <h1 className="text-xl font-medium">Post an announcement</h1>
-        <form onSubmit={handleSubmit} className="w-4/5 flex flex-col gap-y-4">
-          <InputField
-            type="text"
-            name="title"
-            placeholder="Title"
-            value={title}
-            onChange={handleChange}
-          />
-          <InputField
-            type="text"
-            name="description"
-            placeholder="Description"
-            value={description}
-            onChange={handleChange}
-          />
-          <SelectRoom course={course} setCourse={setCourse} />
-          <Button loading={loading} title="Post" />
-        </form>
+      <div className="h-full w-full flex flex-col gap-y-4 items-center justify-center p-4">
+        <div className="w-full flex flex-col gap-y-4 card justify-center items-center p-4 rounded-lg">
+          <h1 className="text-xl font-medium">Post an announcement</h1>
+          <form
+            onSubmit={handleSubmit}
+            className="w-full flex flex-col gap-y-4"
+          >
+            <SelectRoom course={course} setCourse={setCourse} />
+            <InputField
+              type="text"
+              name="title"
+              placeholder="Title"
+              value={title}
+              onChange={handleChange}
+            />
+            <InputField
+              type="text"
+              name="description"
+              placeholder="Description"
+              value={description}
+              onChange={handleChange}
+            />
+            <Button
+              disabled={!canSubmit || loading}
+              loading={loading}
+              title="submit"
+            />
+          </form>
+        </div>
       </div>
     </div>
   );

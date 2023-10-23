@@ -38,18 +38,18 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-around">
-          <div className="flex flex-col gap-y-2 items-center font-semibold">
+        <div className="flex items-center w-full">
+          <div className="flex flex-col gap-y-2 items-center font-semibold w-full">
             <p className="text-lg">15</p>
             <p className="text-xs opacity-70">Posts</p>
           </div>
           <Seperator />
-          <div className="flex flex-col gap-y-2 items-center font-semibold">
+          <div className="flex flex-col gap-y-2 items-center font-semibold w-full">
             <p className="text-lg">15</p>
             <p className="text-xs opacity-70">Likes</p>
           </div>
           <Seperator />
-          <div className="flex flex-col gap-y-2 items-center font-semibold">
+          <div className="flex flex-col gap-y-2 items-center font-semibold w-full">
             <p className="text-lg">15</p>
             <p className="text-xs opacity-70">Reports</p>
           </div>

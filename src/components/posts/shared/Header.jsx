@@ -5,6 +5,7 @@ import Option from "@/components/shared/option/Option";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import moment from "moment/moment";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BiEditAlt, BiFlag, BiLink, BiSolidBadgeCheck } from "react-icons/bi";
@@ -13,7 +14,7 @@ const Header = ({ createdAt, owner, postId, type }) => {
   const router = useRouter();
   const { data: user } = useCurrentUser();
   const [show, setShow] = useState(false);
-  const isOwner = owner._id === user._id;
+  const isOwner = user && owner._id === user._id;
 
   const showOption = () => {
     setShow(true);
@@ -29,6 +30,7 @@ const Header = ({ createdAt, owner, postId, type }) => {
 
   const {
     name: { firstname, lastname },
+    username,
   } = owner;
 
   const postTime = moment(createdAt).fromNow();
@@ -48,7 +50,10 @@ const Header = ({ createdAt, owner, postId, type }) => {
         </div>
         <div className="flex flex-col w-full">
           <div className="text-xs flex w-full flex-wrap items-center gap-x-1">
-            <h1 className="font-semibold px-1 rounded-md click">{`${firstname} ${lastname}`}</h1>
+            <Link
+              href={`/${username}`}
+              className="font-semibold px-1 rounded-md click"
+            >{`${firstname} ${lastname}`}</Link>
             <div className="text-sky-500">
               <BiSolidBadgeCheck size={16} />
             </div>

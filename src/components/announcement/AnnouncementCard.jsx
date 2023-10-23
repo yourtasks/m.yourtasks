@@ -14,6 +14,7 @@ import {
   BiShare,
   BiCheckCircle,
 } from "react-icons/bi";
+import Link from "next/link";
 
 export const AnnouncementCard = ({ data }) => {
   const { data: user } = useCurrentUser();
@@ -22,9 +23,7 @@ export const AnnouncementCard = ({ data }) => {
   useEffect(() => {
     const viewed = async () => {
       try {
-        const { data } = await axios.put(`/api/announcements/${_id}/view`);
-
-        console.log(data);
+        await axios.put(`/api/announcements/${_id}/view`);
       } catch (error) {
         console.log(error);
       }
@@ -34,7 +33,10 @@ export const AnnouncementCard = ({ data }) => {
 
   return (
     <div className="flex flex-col card rounded-lg no-select">
-      <div className="flex flex-col gap-y-1 click p-4 rounded-lg">
+      <Link
+        href={`/announcements/${_id}/view`}
+        className="flex flex-col gap-y-1 click p-4 rounded-lg"
+      >
         <div className="flex items-center gap-x-2 text-xs font-medium opacity-50">
           <p className="">{moment(createdAt).format("DD MMMM YY")}</p>
           <BsDot size={16} />
@@ -46,9 +48,12 @@ export const AnnouncementCard = ({ data }) => {
         <p className="text-sm font-medium line-clamp-2 opacity-80">
           {description}
         </p>
-      </div>
+      </Link>
       <div className="flex items-center justify-between p-2">
-        <div className="w-fit flex items-center gap-x-2 click p-2 rounded-lg">
+        <Link
+          href={`/${user.username}`}
+          className="w-fit flex items-center gap-x-2 click p-2 rounded-lg"
+        >
           <div>
             <div className="h-8 w-8 relative">
               <Image
@@ -65,7 +70,7 @@ export const AnnouncementCard = ({ data }) => {
               {`${owner.name.firstname} ${owner.name.lastname}`}
             </p>
           </div>
-        </div>
+        </Link>
         <div className="flex items-center gap-x-2">
           <CardButton count={10} Icon={<BiShare size={25} />} />
         </div>

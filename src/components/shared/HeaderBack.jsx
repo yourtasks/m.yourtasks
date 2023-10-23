@@ -10,7 +10,7 @@ const HeaderBack = ({ title, link = "/" }) => {
       <Link href={link} className="p-2 click rounded-full">
         <MdArrowBackIosNew size={20} />
       </Link>
-      <p className="capitalize w-full text-xl font-medium">{title}</p>
+      <p className="capitalize w-full text-sm font-medium">{title}</p>
     </div>
   );
 };
