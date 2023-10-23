@@ -26,10 +26,10 @@ const SelectRoom = ({ course, setCourse }) => {
       {isLoading ? (
         <button
           disabled={true}
-          className="input-field flex items-center gap-x-2 justify-center opacity-70"
+          className="input-field flex items-center gap-x-2 justify-center opacity-70 flex-wrap"
         >
-          <p>Getting courses you manage</p>
-          <LoadingSpinner />
+          <LoadingSpinner size={14} />
+          <p>Your managed courses</p>
         </button>
       ) : (
         <select

@@ -32,7 +32,9 @@ const ButtonItem = ({ title, Icon, onClick, red, link }) => {
     <button
       onClick={handleClick}
       className={`flex items-center gap-x-2 p-4 w-full rounded-lg border-[1px] click no-select ${
-        red && "text-red-500 border-red-500 bg-red-500 bg-opacity-5"
+        red
+          ? "text-red-500 border-red-500 bg-red-500 bg-opacity-5"
+          : "border-color"
       }`}
     >
       <div>{Icon}</div>
@@ -67,7 +69,7 @@ const ProfileModal = () => {
           }}
           className="fixed top-0 left-0 w-full h-full invert-bg opacity-30"
         />
-        <div className="absolute z-10 top-0 right-0 h-full w-3/5 card overflow-y-auto px-2 no-select">
+        <div className="absolute z-10 top-0 right-0 h-full w-8/12 card overflow-y-auto px-2 no-select">
           {isLoading ? (
             <div>
               <div className="h-10 w-10 rounded-full skeleton" />
@@ -82,7 +84,7 @@ const ProfileModal = () => {
                 className="w-full flex items-center gap-x-2 click p-2 rounded-lg my-2"
               >
                 <div>
-                  <div className="relative h-14 w-14 p-2 rounded-lg">
+                  <div className="relative h-10 w-10 p-2 rounded-lg">
                     <Image
                       src={"/profile-avatar.jpg"}
                       alt="profile"
@@ -91,13 +93,12 @@ const ProfileModal = () => {
                     />
                   </div>
                 </div>
-                <div className="flex flex-col gap-y-2">
+                <div className="flex flex-col flex-wrap">
                   {user && (
                     <>
                       <p className="text-sm font-medium">
                         {user.name.firstname + " " + user.name.lastname}
                       </p>
-                      <p>{user.role}</p>
                     </>
                   )}
                 </div>

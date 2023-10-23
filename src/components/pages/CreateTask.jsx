@@ -17,10 +17,11 @@ const CreateTask = () => {
   const [formdata, setFormdata] = useState({
     title: "",
     description: "",
-    deadline: new Date(),
+    deadline: "",
   });
 
   const { title, description, deadline } = formdata;
+  const canSubmit = title !== "" && description !== "" && deadline !== "";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,15 +38,18 @@ const CreateTask = () => {
 
       router.push("/tasks");
       setLoading(false);
-      toast.success("Created");
+      toast.success("Task Created");
+      setFormdata({
+        title: "",
+        description: "",
+        deadline: "",
+      });
     } catch (error) {
       console.log(error);
 
       setLoading(false);
-      toast.error("Error");
+      toast.error("Error while creating task");
     }
-
-    console.log(title, description, moment(deadline).fromNow());
   };
 
   const handleChange = (e) => {
@@ -62,10 +66,8 @@ const CreateTask = () => {
           <h1 className="text-center text-xl font-semibold capitalize ">
             Create a new task
           </h1>
-          <form
-            onSubmit={handleSubmit}
-            className="w-5/6 flex flex-col gap-y-4 card"
-          >
+          <form onSubmit={handleSubmit} className="w-5/6 flex flex-col gap-y-4">
+            <SelectRoom course={course} setCourse={setCourse} />
             <InputField
               type="text"
               name="title"
@@ -83,12 +85,14 @@ const CreateTask = () => {
             <InputField
               type="datetime-local"
               name="deadline"
-              placeholder="Description"
               value={deadline}
               onChange={handleChange}
             />
-            <SelectRoom course={course} setCourse={setCourse} />
-            <Button loading={loading} title="submit" />
+            <Button
+              disabled={!canSubmit || loading}
+              loading={loading}
+              title="submit"
+            />
           </form>
         </div>
       </div>

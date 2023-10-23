@@ -36,8 +36,8 @@ const Comment = ({ data, handleLike, handleDislike, mutate }) => {
           />
         </div>
       </div>
-      <div className="w-full flex flex-col gap-y-1 no-select">
-        <div className="text-xs flex items-center gap-x-1 opacity-70 flex-wrap">
+      <div className="w-full flex flex-col no-select">
+        <div className="text-[10px] flex items-center gap-x-1 opacity-70 flex-wrap">
           <h1 className="font-semibold px-1">
             {`${owner.name.firstname} ${owner.name.lastname} • ${timeAgo}`}
           </h1>

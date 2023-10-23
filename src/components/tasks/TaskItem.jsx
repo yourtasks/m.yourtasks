@@ -16,6 +16,7 @@ export default function TaskItem({
   selected,
   loading,
 }) {
+  const { data: user } = useCurrentUser();
   const [checked, setChecked] = useState(completed ? completed : false);
   const {
     _id,
@@ -34,6 +35,17 @@ export default function TaskItem({
   const late = new Date(deadline) < new Date();
 
   const deadlineTime = moment(deadline).fromNow();
+
+  useEffect(() => {
+    const view = async () => {
+      try {
+        await axios.put(`/api/tasks/${_id}/seen`);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    user && !seen.includes(user._id) && view();
+  }, [_id, user, seen]);
 
   const handleChecked = async () => {
     if (!onSelect) {

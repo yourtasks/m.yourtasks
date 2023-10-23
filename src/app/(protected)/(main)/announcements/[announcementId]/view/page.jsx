@@ -1,7 +1,7 @@
 "use client";
 
-import CommentBar from "@/components/posts/shared/CommentBar";
-import CommentList from "@/components/posts/shared/CommentList";
+import CommentBar from "@/components/comment/CommentBar";
+import CommentList from "@/components/comment/CommentList";
 import PostContainer from "@/components/posts/shared/Container";
 import Description from "@/components/posts/shared/Description";
 import Footer from "@/components/posts/shared/Footer";
@@ -15,7 +15,6 @@ import toast from "react-hot-toast";
 import useSWR from "swr";
 
 const Page = ({ params }) => {
-  console.log(params.announcementId);
   const {
     data: post,
     isLoading,

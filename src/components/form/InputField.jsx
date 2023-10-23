@@ -37,7 +37,7 @@ const InputField = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`input-field  tracking-wider ${
+        className={`input-field tracking-wider ${
           hasError && `ring-2 ring-rose-500 bg-rose-500 bg-opacity-10`
         } ${style}`}
         {...other}
