@@ -21,25 +21,9 @@ const Page = ({ params }) => {
     mutate,
   } = useSWR(`/api/announcements/${params.announcementId}`, fetcher);
 
-  const {
-    createdAt,
-    title,
-    description,
-    seen,
-    likes,
-    comments,
-    shares,
-    owner,
-    _id,
-    type,
-  } = post ? post : {};
-
-  console.log(owner);
-
   const handleLike = async (commentId) => {
     try {
-      const { data } = await axios.put(`/api/comments/${commentId}/like`);
-      console.log(data);
+      await axios.put(`/api/comments/${commentId}/like`);
     } catch (error) {
       console.log(error);
 
@@ -49,8 +33,7 @@ const Page = ({ params }) => {
 
   const handleDislike = async (commentId) => {
     try {
-      const { data } = await axios.put(`/api/comments/${commentId}/dislike`);
-      console.log(data);
+      await axios.put(`/api/comments/${commentId}/dislike`);
     } catch (error) {
       console.log(error);
 
@@ -62,42 +45,42 @@ const Page = ({ params }) => {
     <div className="pb-[56px] w-full h-full overflow-y-auto flex flex-col gap-y-2">
       <HeaderBack
         title={`${
-          owner && owner ? owner.name.firstname : "A person"
+          post ? post.owner.name.firstname : "A person"
         }'s announcement`}
       />
       {isLoading ? (
         <PostSkeleton />
       ) : (
-        owner && (
+        post && (
           <>
             <PostContainer>
               <PostHeader
-                createdAt={createdAt}
-                owner={owner}
-                postId={_id}
-                type={type}
+                createdAt={post.createdAt}
+                owner={post.owner}
+                postId={post._id}
+                type={post.type}
               />
               <div className="p-2">
                 <div className="px-2 py-2 click no-select rounded-lg">
-                  <Title>{title}</Title>
-                  <Description>{description}</Description>
+                  <Title>{post.title}</Title>
+                  <Description>{post.description}</Description>
                 </div>
               </div>
               <Footer
-                seen={seen}
-                postId={_id}
-                likes={likes}
-                comments={comments}
-                shares={shares}
+                seen={post.seen}
+                postId={post._id}
+                likes={post.likes}
+                comments={post.comments}
+                shares={post.shares}
               />
             </PostContainer>
             <CommentList
-              apiUrl={`/api/announcements/${_id}/comments`}
+              apiUrl={`/api/announcements/${post._id}/comments`}
               handleLike={handleLike}
               handleDislike={handleDislike}
             />
             <CommentBar
-              apiUrl={`/api/announcements/${_id}/comments`}
+              apiUrl={`/api/announcements/${post._id}/comments`}
               mutate={mutate}
             />
           </>
