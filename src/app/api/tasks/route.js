@@ -22,7 +22,7 @@ export const GET = async (request) => {
       .sort({
         deadline: 1,
       })
-      .select("type source owner title deadline hasCompleted createdAt");
+      .select("type source owner title deadline hasCompleted createdAt seen");
 
     if (!tasks) {
       return new NextResponse("Task not found", { status: 404 });

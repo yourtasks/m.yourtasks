@@ -1,19 +1,14 @@
 "use client";
 import Button from "@/components/form/Button";
-import Post from "@/components/posts/Post";
-import PostSkeleton from "@/components/skeleton/PostSkeleton";
 import TaskSkeleton from "@/components/skeleton/TaskSkeleton";
 import TaskItem from "@/components/tasks/TaskItem";
-import TaskNav from "@/components/tasks/TaskNav";
 import { fetcher } from "@/libs/fetcher";
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 
 const Page = () => {
-  console.log(process.env.NEXT_PUBLIC_BASE_URL);
-
   const [selected, setSelected] = useState([]);
   const [loading, setLoading] = useState(false);
   const canSubmit = selected.length > 0;
