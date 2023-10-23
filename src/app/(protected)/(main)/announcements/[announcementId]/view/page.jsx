@@ -15,6 +15,8 @@ import toast from "react-hot-toast";
 import useSWR from "swr";
 
 const Page = ({ params }) => {
+  console.log("first");
+
   const {
     data: post,
     isLoading,
