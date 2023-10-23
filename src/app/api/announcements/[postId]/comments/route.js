@@ -14,7 +14,10 @@ export const GET = async (request, { params }) => {
     }
 
     const comments = await Comment.find({ source: announcement._id })
-      .populate("owner")
+      .populate({
+        path: "owner",
+        select: "username name profileInformation.badges",
+      })
       .sort({ createdAt: -1 });
 
     comments.sort((a, b) => {

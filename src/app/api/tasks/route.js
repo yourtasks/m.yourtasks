@@ -14,10 +14,15 @@ export const GET = async (request) => {
       source: { $in: coursesId },
       hasCompleted: { $nin: [user._id] },
     })
-      .populate("source owner")
+      .populate({ path: "source", select: "name code section" })
+      .populate({
+        path: "owner",
+        select: "username name profileInformation.badges",
+      })
       .sort({
         deadline: 1,
-      });
+      })
+      .select("type source owner title deadline hasCompleted createdAt");
 
     if (!tasks) {
       return new NextResponse("Task not found", { status: 404 });

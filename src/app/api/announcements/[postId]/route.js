@@ -7,7 +7,10 @@ export const GET = async (request, { params }) => {
   await protect();
 
   try {
-    const announcement = await Announcement.findById(postId).populate("owner");
+    const announcement = await Announcement.findById(postId).populate({
+      path: "owner",
+      select: "username name profileInformation.badges",
+    });
 
     if (!announcement) {
       return new NextResponse("Announcement not found", { status: 404 });
