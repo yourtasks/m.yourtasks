@@ -4,11 +4,8 @@ import CommentBar from "@/components/comment/CommentBar";
 import CommentList from "@/components/comment/CommentList";
 import Announcement from "@/components/posts/Announcement";
 import Container from "@/components/posts/shared/Container";
-import PostContainer from "@/components/posts/shared/Container";
-import Description from "@/components/posts/shared/Description";
 import Footer from "@/components/posts/shared/Footer";
 import PostHeader from "@/components/posts/shared/Header";
-import Title from "@/components/posts/shared/Title";
 import HeaderBack from "@/components/shared/HeaderBack";
 import PostSkeleton from "@/components/skeleton/PostSkeleton";
 import { fetcher } from "@/libs/fetcher";
@@ -87,6 +84,7 @@ const Page = ({ params }) => {
               handleLike={handleLike}
               handleDislike={handleDislike}
             />
+            <div className="h-[56px]" />
             <CommentBar
               apiUrl={`/api/announcements/${post._id}/comments`}
               mutate={mutate}

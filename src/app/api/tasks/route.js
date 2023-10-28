@@ -1,5 +1,6 @@
 import { getAuthUser } from "@/libs/getAuthUser";
 import { protectRoute } from "@/libs/protectRoute";
+import { Course } from "@/models/course";
 import { Task } from "@/models/task";
 import { NextResponse } from "next/server";
 
@@ -71,6 +72,8 @@ export const POST = async (request) => {
       source: course,
       owner: user._id,
     });
+
+    await Course.findByIdAndUpdate(course, { $addToSet: { tasks: task._id } });
 
     return new NextResponse(JSON.stringify(task), { status: 200 });
   } catch (error) {
