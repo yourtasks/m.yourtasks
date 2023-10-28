@@ -14,11 +14,15 @@ const CommentList = ({ apiUrl, handleLike, handleDislike }) => {
   return (
     <div className="h-full w-full card p-2 flex flex-col gap-y-3">
       {isLoading ? (
-        "Loading Comments"
+        <div className="w-full h-full flex flex-col gap-y-4">
+          {[1, 2, 3].map((item) => (
+            <CommentSkeleton key={item} />
+          ))}
+        </div>
       ) : comments && comments.length > 0 ? (
-        <div>Comment</div>
+        comments.map((comment) => <div key={comment._id}>Comment</div>)
       ) : (
-        <div>No comments</div>
+        <Empty title="No comments yet" />
       )}
     </div>
   );
