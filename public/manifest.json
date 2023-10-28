@@ -1,8 +1,8 @@
 {
   "name": "YourTasks",
   "short_name": "YourTasks",
-  "theme_color": "#fff",
-  "background_color": "#fff",
+  "theme_color": "#0284c7",
+  "background_color": "#0284c7",
   "display": "standalone",
   "orientation": "portrait",
   "scope": "/",

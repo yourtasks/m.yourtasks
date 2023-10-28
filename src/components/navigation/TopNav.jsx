@@ -33,9 +33,9 @@ const TopNav = () => {
   // }, [isLoading, user, router]);
 
   return (
-    <div className="fixed z-40 top-0 left-0 w-full py-2 px-4 flex items-center justify-between border-b-2 border-color card">
+    <div className="fixed z-40 top-0 left-0 w-full py-2 px-4 flex items-center justify-between border-b-2 border-color bg-sky-600">
       <div className="flex gap-x-1">
-        <h1 className="text-sky-500 text-xl font-semibold tracking-wider">
+        <h1 className="text-white text-xl font-semibold tracking-wider">
           YourTasks
         </h1>
         <p className="text-[10px] font-semibold bg-rose-500 text-white rounded-md h-fit px-1">
@@ -45,7 +45,7 @@ const TopNav = () => {
       {isLoading ? (
         <TopSkeleton />
       ) : (
-        <div className="flex items-center gap-x-2">
+        <div className="flex items-center gap-x-2 text-white">
           {canPost && (
             <IconButton onClick={handleAdd}>
               <MdAdd size={25} />
