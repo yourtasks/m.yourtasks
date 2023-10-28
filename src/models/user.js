@@ -67,6 +67,10 @@ const userSchema = new Schema(
         type: [Schema.Types.ObjectId],
         ref: "Course",
       },
+      maxCourse: {
+        type: Number,
+        default: 1,
+      },
     },
     profileInformation: {
       profilePicture: {
@@ -117,26 +121,8 @@ const userSchema = new Schema(
       },
     },
     posts: {
-      discussions: {
-        type: [Schema.Types.ObjectId],
-        ref: "Discusssion",
-      },
-      announcements: {
-        type: [Schema.Types.ObjectId],
-        ref: "Announcement",
-      },
-      tasks: {
-        type: [Schema.Types.ObjectId],
-        ref: "Task",
-      },
-      bloodPosts: {
-        type: [Schema.Types.ObjectId],
-        ref: "BloodPost",
-      },
-      polls: {
-        type: [Schema.Types.ObjectId],
-        ref: "Poll",
-      },
+      type: [Schema.Types.ObjectId],
+      ref: "Post",
     },
   },
   { timestamps: true }

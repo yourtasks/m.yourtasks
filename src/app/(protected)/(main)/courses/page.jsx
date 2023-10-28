@@ -1,4 +1,5 @@
 "use client";
+import AddCourse from "@/components/course/AddCourse";
 import CourseCard from "@/components/course/CourseCard";
 import Loading from "@/components/pages/Loading";
 import HeaderBack from "@/components/shared/HeaderBack";
@@ -25,6 +26,9 @@ const Page = () => {
         ) : (
           <div>No course found</div>
         )}
+        <div className="w-full items-center justify-center">
+          <AddCourse />
+        </div>
       </div>
     </div>
   );

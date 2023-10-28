@@ -8,11 +8,12 @@ const transporter = createTransport({
   },
 });
 
-export const sendMail = async ({ to, html }) => {
+export const sendMail = async ({ to, subject, html }) => {
   try {
     await transporter.sendMail({
       from: process.env.USER,
       to,
+      subject,
       html,
     });
 

@@ -63,9 +63,11 @@ export const POST = async (request) => {
     const code = await generateCode();
     await Token.create({ user: newUser._id, code });
 
-    console.log(verificationHtml(code));
-
-    await sendMail({ to: newUser.email.address, html: verificationHtml(code) });
+    await sendMail({
+      to: newUser.email.address,
+      subject: `Verification code - ${code}`,
+      html: verificationHtml(code),
+    });
 
     return new NextResponse(JSON.stringify("An verification email is sent"), {
       status: 203,

@@ -2,13 +2,20 @@
 
 import Button from "@/components/form/Button";
 import InputField from "@/components/form/InputField";
+import OverlayLoading from "@/components/shared/OverlayLoading";
 import axios from "axios";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const Login = () => {
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -75,7 +82,6 @@ const Login = () => {
       setLoading(false);
       reset();
       toast.success("Account created successfully");
-      console.log("first");
       setTimeout(() => {
         signIn("credentials", { username, password, callbackUrl: "/" });
       }, 1000);
@@ -117,7 +123,8 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center gap-y-4">
+    <div className="h-full w-full flex flex-col items-center justify-center gap-y-4">
+      {!hydrated && <OverlayLoading />}
       <div className="w-5/6 flex flex-col items-center gap-y-4 px-6 py-10 card rounded-lg">
         <h1 className="text-xl font-semibold">Create an account</h1>
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-y-4">

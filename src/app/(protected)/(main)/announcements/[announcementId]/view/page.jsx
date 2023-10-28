@@ -13,15 +13,26 @@ import HeaderBack from "@/components/shared/HeaderBack";
 import PostSkeleton from "@/components/skeleton/PostSkeleton";
 import { fetcher } from "@/libs/fetcher";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 
 const Page = ({ params }) => {
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
   const {
     data: post,
     isLoading: loadingPost,
     mutate,
-  } = useSWR(`/api/announcements/${params.announcementId}`, fetcher);
+    error,
+  } = useSWR(
+    hydrated ? `/api/announcements/${params.announcementId}` : null,
+    fetcher
+  );
 
   const handleLike = async (commentId) => {
     try {

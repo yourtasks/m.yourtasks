@@ -19,7 +19,11 @@ export const GET = async (request) => {
 
     const code = await generateCode();
     await Token.create({ user: user._id, code });
-    await sendMail({ to: user.email.address, html: verificationHtml(code) });
+    await sendMail({
+      to: user.email.address,
+      subject: `Verification code - ${code}`,
+      html: verificationHtml(code),
+    });
 
     return new NextResponse("Verification code resend", { status: 200 });
   } catch (error) {

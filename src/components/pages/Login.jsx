@@ -4,13 +4,18 @@ import Button from "@/components/form/Button";
 import InputField from "@/components/form/InputField";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import OverlayLoading from "../shared/OverlayLoading";
 
 const Login = () => {
-  const router = useRouter();
-  const inputRef = useRef(null);
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+    setEdit(true);
+  }, []);
+
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -24,10 +29,6 @@ const Login = () => {
 
   const canSubmit = username !== "" && password !== "";
 
-  useEffect(() => {
-    setEdit(true);
-  }, []);
-
   const reset = () => {
     setFormdata({
       username: "",
@@ -40,23 +41,22 @@ const Login = () => {
 
     setLoading(true);
     setError(null);
-    await signIn("credentials", { username, password, redirect: false }).then(
-      ({ ok, error }) => {
-        if (ok) {
-          reset();
-          router.refresh();
-        } else {
-          console.log(error);
-          if (error.includes("username")) {
-            setError({ name: "username", message: "wrong username" });
-          } else if (error.includes("password")) {
-            setError({ name: "password", message: "incorrect password" });
-          } else {
-            toast.error("Something went wrong");
-          }
-        }
+    await signIn("credentials", {
+      username,
+      password,
+      redirect: false,
+    }).then(({ ok, error }) => {
+      if (ok) {
+        reset();
+        window.location.replace("/");
+      } else if (error.includes("username")) {
+        setError({ name: "username", message: "wrong username" });
+      } else if (error.includes("password")) {
+        setError({ name: "password", message: "incorrect password" });
+      } else {
+        toast.error("Something went wrong");
       }
-    );
+    });
     setLoading(false);
   };
 
@@ -73,7 +73,8 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center gap-y-4">
+    <div className="h-full w-full flex flex-col items-center justify-center gap-y-4">
+      {!hydrated && <OverlayLoading />}
       <div className="w-5/6 flex flex-col items-center gap-y-4 px-6 py-10 card rounded-lg">
         <h1 className="text-xl font-semibold">Login Page</h1>
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-y-4">
