@@ -10,29 +10,7 @@ const CommentList = ({ apiUrl, handleLike, handleDislike }) => {
   const { data: comments, isLoading, mutate } = useSWR(apiUrl, fetcher);
 
   return (
-    <div className="h-full w-full card p-2 flex flex-col gap-y-3">
-      {isLoading ? (
-        <div className="w-full flex flex-col gap-y-4">
-          {[0, 1, 3, 4, 5].map((item) => {
-            <CommentSkeleton key={item} />;
-          })}
-        </div>
-      ) : comments && comments.length > 0 ? (
-        comments.map((comment) => (
-          <Comment
-            key={comment._id}
-            data={comment}
-            handleDislike={handleDislike}
-            handleLike={handleLike}
-            mutate={mutate}
-          />
-        ))
-      ) : (
-        <div className="h-full w-full flex items-center justify-center">
-          <Empty title="No comments yet" />
-        </div>
-      )}
-    </div>
+    <div className="h-full w-full card p-2 flex flex-col gap-y-3">Test</div>
   );
 };
 
