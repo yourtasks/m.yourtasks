@@ -18,9 +18,9 @@ const Page = () => {
     setLoading(true);
     try {
       await axios.put(`/api/tasks`, { tasks: selected });
-      setLoading(false);
       toast.success("Marked as completed");
       await mutate();
+      setLoading(false);
       setSelected([]);
     } catch (error) {
       console.log(error);
@@ -64,7 +64,7 @@ const Page = () => {
           <Button
             title={`Mark as completed (${selected && selected.length})`}
             onClick={handleSubmit}
-            loading={loading}
+            disabled={loading}
           />
         </div>
       )}

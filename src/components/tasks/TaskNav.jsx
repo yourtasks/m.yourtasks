@@ -22,12 +22,17 @@ const NavItem = ({ title, path, link }) => {
 const TaskNav = () => {
   const { data: tasks, isLoading } = useSWR(`/api/tasks`, fetcher);
   const path = usePathname();
+  const taskCount = tasks && tasks.length;
 
   if (path === "/tasks" || path === "/tasks/completed")
     return (
       <div className="fixed flex items-center w-full card overflow-hidden z-40">
         <NavItem
-          title={isLoading ? "Pending" : `Pending (${tasks.length})`}
+          title={
+            isLoading
+              ? "Pending"
+              : `Pending ${taskCount > 0 ? `(${taskCount})` : ""}`
+          }
           path={path}
           link={"/tasks"}
         />

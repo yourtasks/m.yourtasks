@@ -11,6 +11,7 @@ const PressToCopy = ({ children, textToCopy }) => {
     setTimeout(() => {
       if (longPressed.current) {
         copyTextToClipboard(textToCopy);
+        longPressed.current = false;
       }
     }, 500);
   };
