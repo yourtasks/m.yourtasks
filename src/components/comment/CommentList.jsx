@@ -20,7 +20,15 @@ const CommentList = ({ apiUrl, handleLike, handleDislike }) => {
           ))}
         </div>
       ) : comments && comments.length > 0 ? (
-        comments.map((comment) => <div key={comment._id}>Comment</div>)
+        comments.map((comment) => (
+          <Comment
+            key={comment._id}
+            data={comment}
+            mutate={mutate}
+            handleDislike={handleDislike}
+            handleLike={handleLike}
+          />
+        ))
       ) : (
         <Empty title="No comments yet" />
       )}

@@ -50,7 +50,9 @@ export const POST = async (request, { params }) => {
   const user = await protectRoute();
 
   try {
-    const announcement = await Announcement.findById(postId);
+    const announcement = await Announcement.findById(postId)
+      .select("_id")
+      .lean();
 
     if (!announcement) {
       return new NextResponse("Announcement not found", { status: 404 });
