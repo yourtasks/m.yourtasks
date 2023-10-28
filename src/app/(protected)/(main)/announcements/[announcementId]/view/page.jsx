@@ -71,6 +71,11 @@ const Page = ({ params }) => {
                 shares={post.shares}
               />
             </Container>
+            <CommentList
+              apiUrl={`/api/announcements/${post._id}/comments`}
+              handleLike={handleLike}
+              handleDislike={handleDislike}
+            />
             <CommentBar
               apiUrl={`/api/announcements/${post._id}/comments`}
               mutate={mutate}
