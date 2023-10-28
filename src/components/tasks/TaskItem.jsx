@@ -119,13 +119,13 @@ export default function TaskItem({
           <p className="text-xs font-medium line-clamp-1 w-full overflow-ellipsis">{`${source.section.toUpperCase()} - ${
             source.name
           }`}</p>
-          {hasCompleted.length > 0 && (
+          {hasCompleted && hasCompleted.length > 0 && (
             <div className="flex items-center justify-end gap-x-2">
               <BiCheckDouble size={15} />
               <p className="text-xs font-medium">{hasCompleted.length}</p>
             </div>
           )}
-          {seen.length > 0 && (
+          {seen && seen.length > 0 && (
             <div className="flex items-center justify-end gap-x-2 ">
               <BsEyeFill size={15} />
               <p className="text-xs font-medium">{seen.length}</p>

@@ -11,7 +11,7 @@ import useSWR from "swr";
 const Page = () => {
   const [selected, setSelected] = useState([]);
   const [loading, setLoading] = useState(false);
-  const canSubmit = selected.length > 0;
+  const canSubmit = selected && selected.length > 0;
   const { data: tasks, isLoading, mutate } = useSWR(`/api/tasks`, fetcher);
 
   const handleSubmit = async () => {
@@ -62,7 +62,7 @@ const Page = () => {
       {canSubmit && (
         <div className="fixed bottom-[75px] left-0 w-full z-40 px-4">
           <Button
-            title={`Mark as completed (${selected.length})`}
+            title={`Mark as completed (${selected && selected.length})`}
             onClick={handleSubmit}
             loading={loading}
           />
