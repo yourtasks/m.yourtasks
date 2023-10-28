@@ -5,13 +5,15 @@ import InputField from "@/components/form/InputField";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 const Login = () => {
   const router = useRouter();
+  const inputRef = useRef(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   const [formdata, setFormdata] = useState({
     username: "",
@@ -21,6 +23,10 @@ const Login = () => {
   const { username, password } = formdata;
 
   const canSubmit = username !== "" && password !== "";
+
+  useEffect(() => {
+    setEdit(true);
+  }, []);
 
   const reset = () => {
     setFormdata({
@@ -37,16 +43,21 @@ const Login = () => {
     await signIn("credentials", { username, password, redirect: false }).then(
       ({ ok, error }) => {
         if (ok) {
+          reset();
           router.refresh();
         } else {
           console.log(error);
-          toast.error(error);
+          if (error.includes("username")) {
+            setError({ name: "username", message: "wrong username" });
+          } else if (error.includes("password")) {
+            setError({ name: "password", message: "incorrect password" });
+          } else {
+            toast.error("Something went wrong");
+          }
         }
       }
     );
-
     setLoading(false);
-    reset();
   };
 
   const handleChange = (e) => {
@@ -67,7 +78,7 @@ const Login = () => {
         <h1 className="text-xl font-semibold">Login Page</h1>
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-y-4">
           <InputField
-            disabled={loading}
+            disabled={loading || !edit}
             type="text"
             name="username"
             placeholder="Username"
@@ -77,7 +88,7 @@ const Login = () => {
             focus={true}
           />
           <InputField
-            disabled={loading}
+            disabled={loading || !edit}
             type="password"
             name="password"
             placeholder="Password"

@@ -32,18 +32,10 @@ const Seperator = () => {
   );
 };
 
-export default function Footer({
-  seen,
-  postId,
-  likes,
-  comments,
-  shares,
-  hideComment,
-}) {
+export default function Footer({ postId, likes, comments, shares }) {
   const router = useRouter();
 
   const { data: user } = useCurrentUser();
-  console.log(likes);
   const [liking, setLiking] = useState(false);
   const [liked, setLiked] = useState(false);
   const [totalLikes, setTotalLikes] = useState(0);

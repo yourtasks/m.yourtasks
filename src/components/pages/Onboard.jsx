@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../form/Button";
 import useSWR from "swr";
 import { fetcher } from "@/libs/fetcher";
@@ -10,6 +10,8 @@ import CourseSkeleton from "../skeleton/CourseSkeleton";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { BiPlusCircle } from "react-icons/bi";
 import Link from "next/link";
+import SearchBar from "../shared/SearchBar";
+import Fuse from "fuse.js";
 
 const Course = ({ data, rooms, setRooms, canSubmit }) => {
   const canSelect = rooms.length < 8;
@@ -75,10 +77,18 @@ const Course = ({ data, rooms, setRooms, canSubmit }) => {
 const Onboard = () => {
   const router = useRouter();
   const { data: courses, isLoading } = useSWR(`/api/courses`, fetcher);
-  const { data: user, isLoading: loadingUser, mutate } = useCurrentUser();
+  const { data: user, mutate } = useCurrentUser();
+  const [search, setSearch] = useState("");
+  const [list, setList] = useState(null);
   const [loading, setLoading] = useState(false);
   const [rooms, setRooms] = useState([]);
   const canSubmit = rooms.length < 8;
+
+  useEffect(() => {
+    if (courses && courses.length > 0) {
+      setList(courses);
+    }
+  }, [courses]);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -94,6 +104,33 @@ const Onboard = () => {
       toast.error("Something went wrong");
     }
   };
+
+  const handleSearch = (e) => {
+    const searchTerm = e.target.value;
+    setSearch(searchTerm);
+
+    const options = {
+      keys: ["section"],
+      threshold: 1,
+    };
+
+    const fuse = new Fuse(courses, options);
+
+    const allCourses = fuse.search(searchTerm);
+
+    console.log(allCourses);
+
+    setList(
+      allCourses.map((item) => {
+        {
+          const { code, roomCode, name, teacher, _id } = item.item;
+          return { code, roomCode, name, teacher, _id };
+        }
+      })
+    );
+  };
+
+  console.log(list);
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-y-4">
@@ -114,6 +151,7 @@ const Onboard = () => {
             ))}
           </div>
         </div>
+        <SearchBar value={search} onChange={handleSearch} />
         <div className="h-full w-full overflow-y-auto flex flex-col gap-y-4">
           {isLoading ? (
             <div className="flex flex-col gap-y-4 w-full">
@@ -126,7 +164,7 @@ const Onboard = () => {
               <CourseSkeleton />
               <CourseSkeleton />
             </div>
-          ) : courses && courses.length > 0 ? (
+          ) : list && list.length > 0 ? (
             courses.map((course) => (
               <Course
                 key={course._id}
@@ -139,7 +177,7 @@ const Onboard = () => {
           ) : (
             <div className="h-full w-full flex items-center justify-center font-semibold flex-col gap-y-4">
               <h1>No course found</h1>
-              {user.role === "admin" && (
+              {user && user.role === "admin" && (
                 <Link
                   href={"/courses/create"}
                   className="button flex items-center gap-x-4"

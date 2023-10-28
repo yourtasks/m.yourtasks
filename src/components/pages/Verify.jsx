@@ -5,26 +5,28 @@ import InputField from "@/components/form/InputField";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { fetcher } from "@/libs/fetcher";
 import axios from "axios";
-import moment from "moment";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { BiLogOut, BiLogOutCircle } from "react-icons/bi";
+import { BiLogOutCircle } from "react-icons/bi";
 import useSWR from "swr";
 
 const Verify = () => {
   const { data: user } = useCurrentUser();
-  const { data: token, mutate } = useSWR(`/api/token`, fetcher);
+  const { data: token, mutate, isLoading } = useSWR(`/api/token`, fetcher);
 
   const canResend = token
     ? new Date() - new Date(token.updatedAt) > 60000
     : false;
 
   const router = useRouter();
+  const buttonRef = useRef(null);
+  const [resending, setResending] = useState(false);
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState("");
   const canSubmit = code.length === 6;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -54,13 +56,16 @@ const Verify = () => {
   };
 
   const handleResetCode = async () => {
+    setResending(true);
     try {
       await axios.get(`/api/token/resend-token`);
-      toast("A code has sent to your email address");
+      toast.success("Sent code to your email");
       await mutate();
+      setResending(false);
     } catch (error) {
+      setResending(false);
       console.log(error);
-      toast.error("Couldn't perform the operation");
+      toast.error("Couldn't resend code");
     }
   };
 
@@ -110,15 +115,14 @@ const Verify = () => {
             title="Verify"
           />
         </form>
-        <button
-          disabled={!canResend}
+        <Button
           onClick={handleResetCode}
-          className={`text-xs rounded-lg py-2 font-medium disabled:opacity-30 ${
-            !loading && "click"
-          }`}
-        >
-          Resend Code
-        </button>
+          disabled={!canResend}
+          title="Resend"
+          loading={resending}
+          style={"text-xs font-semibold"}
+          secondary
+        />
       </div>
     </div>
   );

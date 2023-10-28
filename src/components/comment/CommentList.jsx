@@ -9,16 +9,13 @@ import CommentSkeleton from "../skeleton/CommentSkeleton";
 const CommentList = ({ apiUrl, handleLike, handleDislike }) => {
   const { data: comments, isLoading, mutate } = useSWR(apiUrl, fetcher);
 
-  console.log(comments);
-
   return (
     <div className="h-full w-full card p-2 flex flex-col gap-y-3">
       {isLoading ? (
         <div className="w-full flex flex-col gap-y-4">
-          <CommentSkeleton />
-          <CommentSkeleton />
-          <CommentSkeleton />
-          <CommentSkeleton />
+          {[0, 1, 3, 4, 5].map((item) => {
+            <CommentSkeleton key={item} />;
+          })}
         </div>
       ) : comments && comments.length > 0 ? (
         comments.map((comment) => (

@@ -1,11 +1,12 @@
 import { capitalizeWord } from "@/libs/capitalizeWord";
 import { connectToDB } from "@/libs/database";
 import { generateCode } from "@/libs/generateCode";
-import { sendMail } from "@/libs/sendMail";
+import { sendMail } from "@/libs/email/sendMail";
 import { Token } from "@/models/token";
 import { User } from "@/models/user";
 import { hash } from "bcrypt";
 import { NextResponse } from "next/server";
+import { verificationHtml } from "@/libs/email/verificationHtml";
 
 export const POST = async (request) => {
   const {
@@ -62,7 +63,9 @@ export const POST = async (request) => {
     const code = await generateCode();
     await Token.create({ user: newUser._id, code });
 
-    await sendMail(newUser.email.address, "Email Verification Code", code);
+    console.log(verificationHtml(code));
+
+    await sendMail({ to: newUser.email.address, html: verificationHtml(code) });
 
     return new NextResponse(JSON.stringify("An verification email is sent"), {
       status: 203,

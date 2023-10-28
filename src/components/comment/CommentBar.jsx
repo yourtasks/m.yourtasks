@@ -22,9 +22,9 @@ const CommentBar = ({ apiUrl, mutate: parentMutate }) => {
       await axios.post(apiUrl, { caption });
 
       setCaption("");
+      toast.success("Comment added");
       await mutate(apiUrl);
       await parentMutate();
-      toast.success("Comment added");
       setLoading(false);
     } catch (error) {
       console.log(error);

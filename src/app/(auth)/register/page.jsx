@@ -89,9 +89,9 @@ const Login = () => {
           setError({ message: error.response.data, name: "username" });
         } else if (error.response.data.includes("email")) {
           setError({ message: error.response.data, name: "email" });
-        } else {
         }
       } else {
+        setError(null);
         toast.error("Something went wrong");
       }
     }

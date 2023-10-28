@@ -2,6 +2,8 @@
 
 import CommentBar from "@/components/comment/CommentBar";
 import CommentList from "@/components/comment/CommentList";
+import Announcement from "@/components/posts/Announcement";
+import Container from "@/components/posts/shared/Container";
 import PostContainer from "@/components/posts/shared/Container";
 import Description from "@/components/posts/shared/Description";
 import Footer from "@/components/posts/shared/Footer";
@@ -17,7 +19,7 @@ import useSWR from "swr";
 const Page = ({ params }) => {
   const {
     data: post,
-    isLoading,
+    isLoading: loadingPost,
     mutate,
   } = useSWR(`/api/announcements/${params.announcementId}`, fetcher);
 
@@ -42,38 +44,33 @@ const Page = ({ params }) => {
   };
 
   return (
-    <div className="pb-[56px] w-full h-full overflow-y-auto flex flex-col gap-y-2">
-      <HeaderBack
-        title={`${
-          post ? post.owner.name.firstname : "A person"
-        }'s announcement`}
-      />
-      {isLoading ? (
+    <div className="h-full w-full flex-col gap-y-2 overflow-y-auto">
+      <HeaderBack title={`A Person's announcement`} />
+      {loadingPost ? (
         <PostSkeleton />
       ) : (
         post && (
           <>
-            <PostContainer>
+            <Container>
               <PostHeader
                 createdAt={post.createdAt}
                 owner={post.owner}
                 postId={post._id}
                 type={post.type}
               />
-              <div className="p-2">
-                <div className="px-2 py-2 click no-select rounded-lg">
-                  <Title>{post.title}</Title>
-                  <Description>{post.description}</Description>
-                </div>
-              </div>
+              <Announcement
+                title={post.title}
+                description={post.description}
+                source={post.source}
+                owner={post.owner}
+              />
               <Footer
-                seen={post.seen}
                 postId={post._id}
                 likes={post.likes}
                 comments={post.comments}
                 shares={post.shares}
               />
-            </PostContainer>
+            </Container>
             <CommentList
               apiUrl={`/api/announcements/${post._id}/comments`}
               handleLike={handleLike}
