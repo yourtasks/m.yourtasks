@@ -6,6 +6,7 @@ import Announcement from "@/components/posts/Announcement";
 import Container from "@/components/posts/shared/Container";
 import Footer from "@/components/posts/shared/Footer";
 import PostHeader from "@/components/posts/shared/Header";
+import Error from "@/components/shared/Error";
 import HeaderBack from "@/components/shared/HeaderBack";
 import PostSkeleton from "@/components/skeleton/PostSkeleton";
 import { fetcher } from "@/libs/fetcher";
@@ -52,10 +53,16 @@ const Page = ({ params }) => {
   };
 
   return (
-    <div className="h-full w-full flex-col gap-y-2 overflow-y-auto">
-      <HeaderBack title={`A Person's announcement`} />
+    <div className="h-full w-full flex flex-col overflow-y-auto">
+      <HeaderBack
+        title={`${
+          post ? post.owner.name.firstname : "A Person"
+        }'s announcement`}
+      />
       {loadingPost ? (
         <PostSkeleton />
+      ) : error ? (
+        <Error />
       ) : (
         post && (
           <>

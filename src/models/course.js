@@ -24,30 +24,45 @@ const courseSchema = new Schema(
       ref: "User",
       default: [],
     },
+    studentsCount: {
+      type: Number,
+      default: 0,
+    },
     cr: {
       type: [Schema.Types.ObjectId],
       ref: "User",
       default: [],
+    },
+    crCount: {
+      type: Number,
+      default: 0,
     },
     announcements: {
       type: [Schema.Types.ObjectId],
       ref: "Announcement",
       default: [],
     },
+    announcementsCount: {
+      type: Number,
+      default: 0,
+    },
     tasks: {
       type: [Schema.Types.ObjectId],
       ref: "Task",
       default: [],
     },
-    bloodPosts: {
-      type: [Schema.Types.ObjectId],
-      ref: "BloodPost",
-      default: [],
+    tasksCount: {
+      type: Number,
+      default: 0,
     },
     polls: {
       type: [Schema.Types.ObjectId],
       ref: "Poll",
       default: [],
+    },
+    pollsCount: {
+      type: Number,
+      default: 0,
     },
   },
   {

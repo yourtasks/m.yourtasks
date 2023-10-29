@@ -1,12 +1,20 @@
 "use client";
 import { AnnouncementCard } from "@/components/announcement/AnnouncementCard";
 import Empty from "@/components/shared/Empty";
+import Error from "@/components/shared/Error";
 import { fetcher } from "@/libs/fetcher";
-import { MdCloudDone } from "react-icons/md";
 import useSWR from "swr";
 
 const Page = () => {
-  const { data: posts, isLoading } = useSWR(`/api/announcements`, fetcher);
+  const {
+    data: posts,
+    isLoading,
+    error,
+  } = useSWR(`/api/announcements`, fetcher);
+
+  if (!isLoading && error) {
+    return <Error />;
+  }
 
   return (
     <div className="h-full w-full both-space">

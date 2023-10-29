@@ -14,7 +14,13 @@ const Error = () => {
       <h1 className="text-xs font-semibold">
         Error occured while fetching data
       </h1>
-      <Button title="Refresh" onClick={handleRefresh} />
+      <div>
+        <Button
+          title="Refresh"
+          onClick={handleRefresh}
+          style={"text-sky-500 text-xs font-semibold"}
+        />
+      </div>
     </div>
   );
 };

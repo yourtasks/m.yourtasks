@@ -1,13 +1,10 @@
 "use client";
 import { BsSearch } from "react-icons/bs";
 import { MdAdd } from "react-icons/md";
-import { RxAvatar } from "react-icons/rx";
 import IconButton from "../shared/IconButton";
-import Avatar from "../shared/Avatar";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import TopSkeleton from "../skeleton/TopSkeleton";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { usePostStore } from "@/store/usePostStore";
 import { useProfile } from "@/store/useProfile";
 import Image from "next/image";

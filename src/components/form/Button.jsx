@@ -11,7 +11,9 @@ const Button = ({ title, loading, disabled, onClick, secondary, style }) => {
     <button
       onClick={handleClick}
       disabled={disabled || loading}
-      className={`w-full ${secondary ? "click rounded-lg py-2" : "button"}`}
+      className={`w-full ${
+        secondary ? "click rounded-lg py-2 px-4" : "button"
+      }`}
     >
       {loading ? (
         <div className="w-full flex items-center justify-center animate-spin">

@@ -23,13 +23,25 @@ const commentSchema = new Schema(
       type: [Schema.Types.ObjectId],
       ref: "User",
     },
+    likesCount: {
+      type: Number,
+      default: 0,
+    },
     dislikes: {
       type: [Schema.Types.ObjectId],
       ref: "User",
     },
+    dislikesCount: {
+      type: Number,
+      default: 0,
+    },
     reports: {
       type: [Schema.Types.ObjectId],
       ref: "Report",
+    },
+    reportsCount: {
+      type: Number,
+      default: 0,
     },
   },
   { timestamps: true }

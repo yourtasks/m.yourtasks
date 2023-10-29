@@ -45,19 +45,19 @@ const Comment = ({ data, handleLike, handleDislike, mutate }) => {
         <p className="text-xs leading-5 font-medium click no-select rounded-md p-1">
           {caption}
         </p>
-        <div className="text-xs font-medium w-full flex items-center gap-x-2">
+        <div className="text-xs font-semibold w-full flex items-center gap-x-2">
           <IconButton onClick={funcLike}>
-            {liked ? <BiSolidLike size={20} /> : <BiLike size={20} />}
+            {liked ? <BiSolidLike size={15} /> : <BiLike size={15} />}
           </IconButton>
           <p className="opacity-80">{likes.length}</p>
           <IconButton onClick={funcDislike}>
-            {disliked ? <BiSolidDislike size={20} /> : <BiDislike size={20} />}
+            {disliked ? <BiSolidDislike size={15} /> : <BiDislike size={15} />}
           </IconButton>
           <p className="opacity-80">{dislikes.length}</p>
         </div>
       </div>
       <IconButton>
-        <BsThreeDotsVertical size={20} />
+        <BsThreeDotsVertical size={15} />
       </IconButton>
     </div>
   );

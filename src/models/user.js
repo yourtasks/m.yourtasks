@@ -18,15 +18,9 @@ const userSchema = new Schema(
       },
     },
     email: {
-      address: {
-        type: String,
-        required: true,
-        unique: true,
-      },
-      isVerified: {
-        type: Boolean,
-        default: false,
-      },
+      type: String,
+      required: true,
+      unique: true,
     },
     password: {
       type: String,
