@@ -11,9 +11,9 @@ const page = async () => {
     redirect("/login");
   }
 
-  if (user.studentInformation.courses.length > 0) {
+  if (user && user.courses.length > 0) {
     if (user.role === "admin") {
-      return;
+      return <Onboard />;
     }
 
     redirect("/");

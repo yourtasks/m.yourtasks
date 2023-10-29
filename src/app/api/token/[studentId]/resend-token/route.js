@@ -4,13 +4,17 @@ import { serverAuth } from "@/libs/serverAuth";
 import { Token } from "@/models/token";
 import { NextResponse } from "next/server";
 import { verificationHtml } from "@/libs/email/verificationHtml";
+import { TempUser } from "@/models/tempUser";
 
-export const GET = async (request) => {
-  const user = await serverAuth();
-
-  console.log(user);
-
+export const GET = async (request, { params }) => {
+  const { studentId } = params;
   try {
+    const user = await TempUser.findOne({ studentId });
+
+    if (!user) {
+      return new NextResponse("User not found", { status: 404 });
+    }
+
     const token = await Token.findOne({ user: user._id });
 
     if (token) {
@@ -20,7 +24,7 @@ export const GET = async (request) => {
     const code = await generateCode();
     await Token.create({ user: user._id, code });
     await sendMail({
-      to: user.email.address,
+      to: user.email,
       subject: `Verification code - ${code}`,
       html: verificationHtml(code),
     });

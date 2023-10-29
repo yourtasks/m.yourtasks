@@ -7,6 +7,7 @@ import { User } from "@/models/user";
 import { hash } from "bcrypt";
 import { NextResponse } from "next/server";
 import { verificationHtml } from "@/libs/email/verificationHtml";
+import { TempUser } from "@/models/tempUser";
 
 export const POST = async (request) => {
   const {
@@ -49,22 +50,20 @@ export const POST = async (request) => {
       return new NextResponse("username taken", { status: 409 });
     }
 
-    const newUser = await User.create({
+    const newUser = await TempUser.create({
       username,
-      name: {
-        firstname,
-        lastname,
-      },
-      email: { address: email },
+      firstname,
+      lastname,
+      email,
       password: hashedPassword,
-      studentInformation: { studentId },
+      studentId,
     });
 
     const code = await generateCode();
     await Token.create({ user: newUser._id, code });
 
     await sendMail({
-      to: newUser.email.address,
+      to: email,
       subject: `Verification code - ${code}`,
       html: verificationHtml(code),
     });

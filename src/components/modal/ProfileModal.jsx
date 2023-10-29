@@ -10,7 +10,6 @@ import { BiBookAlt, BiHelpCircle, BiLogOut } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "@/libs/fetcher";
-import Link from "next/link";
 const List = ({ children }) => {
   return <div className="w-full flex flex-col gap-y-2">{children}</div>;
 };
@@ -97,7 +96,7 @@ const ProfileModal = () => {
                   {user && (
                     <>
                       <p className="text-sm font-medium">
-                        {user.name.firstname + " " + user.name.lastname}
+                        {user.firstname + " " + user.lastname}
                       </p>
                     </>
                   )}

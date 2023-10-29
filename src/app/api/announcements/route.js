@@ -10,15 +10,12 @@ export const GET = async (request) => {
   const user = await protectRoute();
 
   if (!user) {
-    redirect("/login");
+    return new NextResponse("Access denied", { status: 401 });
   }
-
-  const courses =
-    user && user.studentInformation.courses.map((course) => course._id);
 
   try {
     const announcements = await Announcement.find({
-      source: { $in: courses },
+      source: { $in: user.courses },
     })
       .populate("source owner")
       .sort({ createdAt: -1 });
@@ -46,18 +43,9 @@ export const POST = async (request) => {
       source: course,
     });
 
-    if (course === "all") {
-      await Course.updateMany({}, { $addToSet: { announcements: newAnn._id } });
-
-      return new NextResponse("Posted", { status: 200 });
-    }
-
     await Course.findByIdAndUpdate(course, {
       $addToSet: { announcements: newAnn._id },
-    });
-
-    await User.findByIdAndUpdate(user._id, {
-      $addToSet: { announcements: newAnn._id },
+      $inc: { announcementsCount: 1 },
     });
 
     return new NextResponse("Post created successfully", { status: 200 });

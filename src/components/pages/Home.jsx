@@ -6,14 +6,21 @@ import { fetcher } from "@/libs/fetcher";
 import PostSkeleton from "../skeleton/PostSkeleton";
 import { MdCloudDone } from "react-icons/md";
 import EndPost from "../shared/EndPost";
+import Error from "../shared/Error";
 
 const Home = () => {
-  const { data: posts, isLoading } = useSWR(`/api/announcements`, fetcher);
+  const {
+    data: posts,
+    isLoading,
+    error,
+  } = useSWR(`/api/announcements`, fetcher);
 
   return (
     <div className="h-full w-full flex flex-col items-center">
       <div className="w-full sm:w-3/5 md:w-3/5 lg:w-2/5 h-full both-space flex flex-col gap-y-1 overflow-y-auto">
-        {isLoading ? (
+        {error ? (
+          <Error />
+        ) : isLoading ? (
           <>
             {[1, 2, 3].map((index) => (
               <PostSkeleton key={index} />

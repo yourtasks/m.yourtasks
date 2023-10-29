@@ -67,7 +67,7 @@ export const AnnouncementCard = ({ data }) => {
           <div className="flex flex-col">
             <p className="text-[10px] font-semibold opacity-50">posted by</p>
             <p className="text-xs font-semibold opacity-80">
-              {`${owner.name.firstname} ${owner.name.lastname}`}
+              {`${owner.firstname} ${owner.lastname}`}
             </p>
           </div>
         </Link>

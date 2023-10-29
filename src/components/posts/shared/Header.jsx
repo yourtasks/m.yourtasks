@@ -28,10 +28,7 @@ const Header = ({ createdAt, owner, postId, type }) => {
     router.push(`/announcements/${postId}`);
   };
 
-  const {
-    name: { firstname, lastname },
-    username,
-  } = owner;
+  const { firstname, lastname, username } = owner;
 
   const postTime = moment(createdAt).fromNow();
 

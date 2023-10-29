@@ -10,7 +10,7 @@ export const GET = async (request, { params }) => {
     const announcement = await Announcement.findById(postId)
       .populate({
         path: "owner",
-        select: "username name profileInformation.badges",
+        select: "username firstname lastname profileInformation.badges",
       })
       .populate({
         path: "source",

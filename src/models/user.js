@@ -9,24 +9,16 @@ const userSchema = new Schema(
       min: 3,
       max: 20,
     },
-    name: {
-      firstname: {
-        type: String,
-      },
-      lastname: {
-        type: String,
-      },
+    firstname: {
+      type: String,
+    },
+    lastname: {
+      type: String,
     },
     email: {
-      address: {
-        type: String,
-        required: true,
-        unique: true,
-      },
-      isVerified: {
-        type: Boolean,
-        default: false,
-      },
+      type: String,
+      required: true,
+      unique: true,
     },
     password: {
       type: String,
@@ -35,94 +27,95 @@ const userSchema = new Schema(
     gender: {
       type: String,
       enum: ["male", "female"],
-      default: "male",
+      required: true,
     },
     role: {
       type: String,
       enum: ["admin", "moderator", "cr", "user"],
       default: "user",
     },
-    personalInformation: {
-      phone: {
-        type: [String],
-      },
-      currentAddress: {
-        type: String,
-      },
-      permanentAddress: {
-        type: String,
-      },
-      bloodGroup: {
-        type: String,
-      },
+    phone: {
+      type: [String],
     },
-    studentInformation: {
-      studentId: {
-        type: String,
-      },
-      batch: {
-        type: String,
-      },
-      courses: {
-        type: [Schema.Types.ObjectId],
-        ref: "Course",
-      },
-      maxCourse: {
-        type: Number,
-        default: 1,
-      },
+    currentAddress: {
+      type: String,
     },
-    profileInformation: {
-      profilePicture: {
-        type: String,
-        default: "profile-avatar.jpg",
-      },
-      coverPhoto: {
-        type: String,
-      },
-      badges: {
-        type: [String],
-        enum: [
-          "cr",
-          "moderator",
-          "admin",
-          "donor",
-          "magnet",
-          "commentator",
-          "liker",
-          "popular",
-        ],
-        default: [],
-      },
-      restrictions: [
-        {
-          type: {
-            type: [String],
-            enum: ["post", "comment", "react"],
-            default: [],
-          },
-          time: {
-            type: Date,
-            default: Date.now,
-          },
-        },
+    permanentAddress: {
+      type: String,
+    },
+    bloodGroup: {
+      type: String,
+    },
+    isDonor: {
+      type: Boolean,
+      default: false,
+    },
+    studentId: {
+      type: String,
+    },
+    batch: {
+      type: String,
+    },
+    courses: {
+      type: [Schema.Types.ObjectId],
+      ref: "Course",
+    },
+    coursesCount: {
+      type: Number,
+      default: 0,
+    },
+    maxCourse: {
+      type: Number,
+      default: 1,
+    },
+    profilePicture: {
+      type: String,
+      default: "profile-avatar.jpg",
+    },
+    coverPhoto: {
+      type: String,
+    },
+    badges: {
+      type: [String],
+      enum: [
+        "cr",
+        "moderator",
+        "admin",
+        "donor",
+        "magnet",
+        "commentator",
+        "liker",
+        "popular",
       ],
-      reports: {
-        type: [Schema.Types.ObjectId],
-        ref: "Report",
-      },
-      totalLikes: {
-        type: Number,
-        default: 0,
-      },
-      totalComments: {
-        type: Number,
-        default: 0,
-      },
+      default: [],
+    },
+    restrictions: {
+      type: [Schema.Types.ObjectId],
+      ref: "Restriction",
+    },
+    reports: {
+      type: [Schema.Types.ObjectId],
+      ref: "Report",
+    },
+    reportsCount: {
+      type: Number,
+      default: 0,
     },
     posts: {
       type: [Schema.Types.ObjectId],
       ref: "Post",
+    },
+    postsCount: {
+      type: Number,
+      default: 0,
+    },
+    totalLikes: {
+      type: Number,
+      default: 0,
+    },
+    totalComments: {
+      type: Number,
+      default: 0,
     },
   },
   { timestamps: true }

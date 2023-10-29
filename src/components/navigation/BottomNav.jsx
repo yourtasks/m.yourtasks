@@ -21,7 +21,7 @@ const BottomNavItem = ({ title, href, Icon, Active, path, big, count }) => {
   return (
     <Link
       href={href}
-      className={`relative no-select no-drag flex flex-col gap-y-2 items-center w-full rounded-md py-2`}
+      className={`relative no-select no-drag flex flex-col md:flex-row md:justify-center gap-y-2 items-center w-full rounded-md py-2 click`}
     >
       {isActive ? (
         <div className={`text-sky-500 ${big && "text-[40px]"}`}>{Active}</div>
@@ -31,7 +31,9 @@ const BottomNavItem = ({ title, href, Icon, Active, path, big, count }) => {
 
       {title && (
         <h1
-          className={`text-[10px] ${isActive && "text-sky-500 font-semibold"}`}
+          className={`text-[10px] md:text-sm ${
+            isActive && "text-sky-500 font-semibold"
+          }`}
         >
           {title}
         </h1>
@@ -48,12 +50,11 @@ const BottomNavItem = ({ title, href, Icon, Active, path, big, count }) => {
 export default function BottomNavigation() {
   const { data: tasks, isLoading: taskLoading } = useSWR(`/api/tasks`, fetcher);
   const taskCount = tasks ? tasks.length : 0;
-  console.log(taskCount);
 
   const path = usePathname();
 
   return (
-    <div className="color fixed z-40 bottom-0 left-0 w-full flex items-center border-t-[1px] border-color card">
+    <div className="color fixed md:static z-40 bottom-0 left-0 w-full flex md:flex-col items-center border-t-[1px] border-color card">
       <BottomNavItem
         path={path}
         href={"/"}

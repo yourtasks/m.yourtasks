@@ -2,26 +2,23 @@
 
 import Button from "@/components/form/Button";
 import InputField from "@/components/form/InputField";
-import useCurrentUser from "@/hooks/useCurrentUser";
 import { fetcher } from "@/libs/fetcher";
 import axios from "axios";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { BiLogOutCircle } from "react-icons/bi";
 import useSWR from "swr";
 
-const Verify = () => {
-  const { data: user } = useCurrentUser();
-  const { data: token, mutate, isLoading } = useSWR(`/api/token`, fetcher);
+const Verify = ({ studentId }) => {
+  const { data: token, mutate } = useSWR(`/api/token/${studentId}`, fetcher);
+
+  console.log(token);
 
   const canResend = token
     ? new Date() - new Date(token.updatedAt) > 60000
     : false;
 
-  const router = useRouter();
-  const buttonRef = useRef(null);
   const [resending, setResending] = useState(false);
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState("");
@@ -33,11 +30,10 @@ const Verify = () => {
     setLoading(true);
 
     try {
-      await axios.put(`/api/token/verify`, {
+      await axios.put(`/api/token/${studentId}/verify`, {
         code,
       });
-
-      router.push("/onboarding");
+      window.location.replace("/login");
       toast.success("Email verified successfully");
       setLoading(false);
     } catch (error) {
@@ -58,7 +54,7 @@ const Verify = () => {
   const handleResetCode = async () => {
     setResending(true);
     try {
-      await axios.get(`/api/token/resend-token`);
+      await axios.get(`/api/token/${studentId}/resend-token`);
       toast.success("Sent code to your email");
       await mutate();
       setResending(false);
@@ -87,10 +83,8 @@ const Verify = () => {
           Verify Email Account
         </h1>
         <p className="text-center text-sm opacity-70 py-4">
-          A 6-digit verification code has been sent to your{" "}
-          <span className="font-semibold">{user && user.email.address}</span>{" "}
-          email. Please check your email inbox, including the spam or junk
-          folder, to find the code.
+          A 6-digit verification code has been sent to your email. Please check
+          your email inbox, including the spam or junk folder, to find the code.
           <br />
           <br />
           If you haven{"'"}t received the code, please click the{" "}

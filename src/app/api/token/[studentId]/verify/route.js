@@ -1,16 +1,20 @@
 import { serverAuth } from "@/libs/serverAuth";
+import { TempUser } from "@/models/tempUser";
 import { Token } from "@/models/token";
 import { User } from "@/models/user";
 import { NextResponse } from "next/server";
 
-export const PUT = async (request) => {
+export const PUT = async (request, { params }) => {
+  const { studentId } = params;
   const { code } = await request.json();
 
-  const user = await serverAuth();
-
-  console.log(user._id);
-
   try {
+    const user = await TempUser.findOne({ studentId });
+
+    if (!user) {
+      return new NextResponse("User not found", { status: 404 });
+    }
+
     const token = await Token.findOne({ user: user._id });
 
     if (!token) return new NextResponse("Token not found", { status: 404 });
@@ -18,8 +22,16 @@ export const PUT = async (request) => {
     if (token.code !== code) {
       return new NextResponse("Incorrect verification code", { status: 403 });
     }
-
-    await User.findByIdAndUpdate(user._id, { "email.isVerified": true });
+    await User.create({
+      username: user.username,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+      password: user.password,
+      studentId: user.studentId,
+      gender: "male",
+    });
+    await TempUser.findByIdAndDelete(user._id);
     await Token.findByIdAndDelete(token._id);
 
     return new NextResponse("Verified email address", { status: 200 });

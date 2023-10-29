@@ -6,13 +6,11 @@ import { NextResponse } from "next/server";
 
 export const GET = async (request) => {
   const user = await protectRoute();
-  const coursesId = user.studentInformation.courses.map((course) => course);
-
   const currentDate = new Date();
 
   try {
     const tasks = await Task.find({
-      source: { $in: coursesId },
+      source: { $in: user.courses },
       hasCompleted: { $nin: [user._id] },
     })
       .populate({ path: "source", select: "name code section" })
@@ -73,7 +71,10 @@ export const POST = async (request) => {
       owner: user._id,
     });
 
-    await Course.findByIdAndUpdate(course, { $addToSet: { tasks: task._id } });
+    await Course.findByIdAndUpdate(course, {
+      $addToSet: { tasks: task._id },
+      $inc: { tasksCount: 1 },
+    });
 
     return new NextResponse(JSON.stringify(task), { status: 200 });
   } catch (error) {

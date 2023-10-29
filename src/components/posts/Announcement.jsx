@@ -9,8 +9,8 @@ const Announcement = ({ title, description, source, owner }) => {
       <PressToCopy
         textToCopy={`${capitalizeWord(`${source.name}`)} (${capitalizeWord(
           source.section
-        )})\n\n${title}\n${description}\n\n\posted by ${owner.name.firstname} ${
-          owner.name.lastname
+        )})\n\n${title}\n${description}\n\n\posted by ${owner.firstname} ${
+          owner.lastname
         }`}
       >
         <Title>{`${source.name} (${source.section}) - ${title}`}</Title>

@@ -55,9 +55,7 @@ const Page = ({ params }) => {
   return (
     <div className="h-full w-full flex flex-col overflow-y-auto">
       <HeaderBack
-        title={`${
-          post ? post.owner.name.firstname : "A Person"
-        }'s announcement`}
+        title={`${post ? post.owner.firstname : "A Person"}'s announcement`}
       />
       {loadingPost ? (
         <PostSkeleton />

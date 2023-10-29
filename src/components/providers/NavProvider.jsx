@@ -24,10 +24,10 @@ const NavProvider = () => {
 
   if (!hide)
     return (
-      <nav>
+      <>
         <TopNav />
         <BottomNav />
-      </nav>
+      </>
     );
 };
 

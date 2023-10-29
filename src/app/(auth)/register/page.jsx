@@ -82,9 +82,7 @@ const Login = () => {
       setLoading(false);
       reset();
       toast.success("Account created successfully");
-      setTimeout(() => {
-        signIn("credentials", { username, password, callbackUrl: "/" });
-      }, 1000);
+      window.location.replace(`/verify/${studentId}`);
     } catch (error) {
       console.log(error);
       setLoading(false);

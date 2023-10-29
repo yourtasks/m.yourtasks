@@ -7,11 +7,8 @@ export const protect = async () => {
   if (!user) {
     redirect("/login");
   }
-  if (!user.email.isVerified) {
-    redirect("/verify");
-  }
 
-  if (!user.studentInformation.courses.length > 0) {
+  if (!user.courses.length > 0) {
     if (user.role === "admin") {
       return;
     }

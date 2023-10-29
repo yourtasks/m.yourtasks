@@ -31,8 +31,6 @@ export const PUT = async (request, { params }) => {
       );
     }
 
-    console.log(ann._doc.likes);
-
     return new NextResponse(JSON.stringify(ann), { status: 200 });
   } catch (error) {
     console.log(error);

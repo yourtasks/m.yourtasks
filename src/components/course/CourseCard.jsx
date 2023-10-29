@@ -7,7 +7,16 @@ import { MdOutlineCampaign } from "react-icons/md";
 
 const CourseCard = ({ data }) => {
   const { data: user } = useCurrentUser();
-  const { _id, name, code, section, students, announcements, tasks, cr } = data;
+  const {
+    _id,
+    name,
+    code,
+    section,
+    studentsCount,
+    announcementsCount,
+    tasksCount,
+    cr,
+  } = data;
 
   const isCR = cr && cr.length > 0 && cr.includes(user._id);
 
@@ -25,18 +34,18 @@ const CourseCard = ({ data }) => {
           <div>
             <div className="flex items-center gap-x-2 font-medium opacity-50">
               <BsFillPersonFill size={15} />
-              <p className="text-xs">{students.length}</p>
+              <p className="text-xs">{studentsCount}</p>
             </div>
           </div>
         </div>
         <div className="text-xs flex flex-col gap-y-2">
           <div className="flex items-center gap-x-2">
             <MdOutlineCampaign size={20} />
-            <p className="font-medium">{announcements.length}</p>
+            <p className="font-medium">{announcementsCount}</p>
           </div>
           <div className="flex items-center gap-x-2">
             <BiTask size={20} />
-            <p className="font-medium">{tasks.length}</p>
+            <p className="font-medium">{tasksCount}</p>
           </div>
         </div>
       </div>

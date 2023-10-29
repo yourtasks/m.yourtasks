@@ -13,13 +13,18 @@ import Link from "next/link";
 import SearchBar from "../shared/SearchBar";
 import Fuse from "fuse.js";
 
-const Course = ({ data, rooms, setRooms, canSubmit }) => {
-  const canSelect = rooms.length < 8;
+const Course = ({ data, rooms, setRooms, loading }) => {
+  const { data: user } = useCurrentUser();
+
+  const canSelect = user && rooms.length < user.maxCourse;
   const isSelected = rooms.some((room) => room.roomCode === data.roomCode);
 
   const inputRef = useRef(null);
 
   const handleClick = () => {
+    if (!canSelect && !isSelected && !loading) {
+      return;
+    }
     inputRef.current.checked = !inputRef.current.checked;
 
     handleChange();
@@ -27,10 +32,6 @@ const Course = ({ data, rooms, setRooms, canSubmit }) => {
 
   const handleChange = () => {
     const { value, checked } = inputRef.current;
-
-    if (!canSelect && !isSelected) {
-      return;
-    }
 
     if (checked) {
       setRooms((prev) => [
@@ -82,7 +83,7 @@ const Onboard = () => {
   const [list, setList] = useState(null);
   const [loading, setLoading] = useState(false);
   const [rooms, setRooms] = useState([]);
-  const canSubmit = rooms.length < 8;
+  const canSubmit = rooms.length > 0;
 
   useEffect(() => {
     if (courses && courses.length > 0) {
@@ -138,7 +139,9 @@ const Onboard = () => {
         <div className="h-fit py-2 flex flex-col gap-y-4">
           <h1 className="text-2xl text-center font-medium">
             Select your courses{" "}
-            <span className="font-semibold">{`${rooms.length}/8`}</span>
+            <span className="font-semibold">{`${rooms.length}/${
+              user && user.maxCourse
+            }`}</span>
           </h1>
           <div className="h-fit w-full flex flex-wrap items-center gap-2">
             {rooms.map((room) => (
@@ -172,6 +175,7 @@ const Onboard = () => {
                 rooms={rooms}
                 setRooms={setRooms}
                 canSubmit={canSubmit}
+                loading={loading}
               />
             ))
           ) : (
@@ -194,7 +198,7 @@ const Onboard = () => {
         <div className="fixed bottom-0 z-10 left-0 w-full py-4 px-4 flex flex-col gap-y-2 bg">
           <Button
             loading={loading}
-            disabled={canSubmit}
+            disabled={!canSubmit}
             title="Submit"
             onClick={handleSubmit}
           />
