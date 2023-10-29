@@ -15,6 +15,8 @@ const TopNav = () => {
   const router = useRouter();
   const { data: user, isLoading } = useCurrentUser();
 
+  console.log(user);
+
   const canPost = user && (user.role === "admin" || user.role === "cr");
 
   const handleAdd = () => {

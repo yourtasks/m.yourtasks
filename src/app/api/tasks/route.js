@@ -2,6 +2,7 @@ import { getAuthUser } from "@/libs/getAuthUser";
 import { protectRoute } from "@/libs/protectRoute";
 import { Course } from "@/models/course";
 import { Task } from "@/models/task";
+import { User } from "@/models/user";
 import { NextResponse } from "next/server";
 
 export const GET = async (request) => {
@@ -73,6 +74,9 @@ export const POST = async (request) => {
 
     await Course.findByIdAndUpdate(course, {
       $addToSet: { tasks: task._id },
+      $inc: { tasksCount: 1 },
+    });
+    await User.findByIdAndUpdate(user._id, {
       $inc: { tasksCount: 1 },
     });
 

@@ -109,6 +109,13 @@ const userSchema = new Schema(
       type: Number,
       default: 0,
     },
+    myname: {
+      type: String,
+    },
+    tasksCount: {
+      type: Number,
+      default: 0,
+    },
     totalLikes: {
       type: Number,
       default: 0,

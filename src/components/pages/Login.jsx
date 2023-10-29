@@ -44,11 +44,11 @@ const Login = () => {
     await signIn("credentials", {
       username,
       password,
-      redirect: false,
-    }).then(({ ok, error }) => {
-      if (ok) {
-        reset();
-        window.location.replace("/");
+      redirect: "/",
+    }).then(({ error }) => {
+      if (error.includes("tempuser")) {
+        const studentId = error.split(" ")[1];
+        window.location.replace(`/verify/${studentId}`);
       } else if (error.includes("username")) {
         setError({ name: "username", message: "wrong username" });
       } else if (error.includes("password")) {

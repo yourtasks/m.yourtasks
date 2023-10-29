@@ -11,7 +11,7 @@ const page = async () => {
     redirect("/login");
   }
 
-  if (user && user.courses.length > 0) {
+  if (user && user.courses.length === user.maxCourse) {
     if (user.role === "admin") {
       return <Onboard />;
     }

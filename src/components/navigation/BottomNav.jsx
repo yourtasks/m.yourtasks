@@ -48,8 +48,10 @@ const BottomNavItem = ({ title, href, Icon, Active, path, big, count }) => {
 };
 
 export default function BottomNavigation() {
-  const { data: tasks, isLoading: taskLoading } = useSWR(`/api/tasks`, fetcher);
-  const taskCount = tasks ? tasks.length : 0;
+  const { data: tasksCount, isLoading: taskLoading } = useSWR(
+    `/api/tasks/pending`,
+    fetcher
+  );
 
   const path = usePathname();
 
@@ -70,7 +72,7 @@ export default function BottomNavigation() {
         Active={<MdCampaign size={25} />}
       />
       <BottomNavItem
-        count={taskCount}
+        count={tasksCount}
         path={path}
         href={"/tasks"}
         title={"Tasks"}

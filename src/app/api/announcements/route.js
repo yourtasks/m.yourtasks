@@ -17,8 +17,15 @@ export const GET = async (request) => {
     const announcements = await Announcement.find({
       source: { $in: user.courses },
     })
-      .populate("source owner")
-      .sort({ createdAt: -1 });
+      .populate({
+        path: "owner",
+        select: "username firstname lastname role badges profilePicture",
+      })
+      .populate({ path: "source", select: "code section name" })
+      .sort({ createdAt: -1 })
+      .select(
+        "type source owner title description seen seenCount likes likesCount commentsCount sharesCount"
+      );
 
     return new NextResponse(JSON.stringify(announcements), {
       status: 200,

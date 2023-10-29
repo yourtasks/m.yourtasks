@@ -14,14 +14,13 @@ const Post = ({ data }) => {
     createdAt,
     owner,
     likes,
-    comments,
-    shares,
+    likesCount,
+    commentsCount,
+    sharesCount,
     source,
     deadline,
-    seen,
+    seenCount,
   } = data;
-
-  console.log(createdAt);
 
   return (
     <Container>
@@ -37,13 +36,14 @@ const Post = ({ data }) => {
       {type === "task" && (
         <Task title={title} description={description} deadline={deadline} />
       )}
-      <Seen postId={_id} seen={seen} />
+      <Seen postId={_id} seen={seenCount} />
       <Footer
-        seen={seen}
+        seen={seenCount}
         postId={_id}
         likes={likes}
-        comments={comments}
-        shares={shares}
+        likesCount={likesCount}
+        commentsCount={commentsCount}
+        sharesCount={sharesCount}
       />
     </Container>
   );

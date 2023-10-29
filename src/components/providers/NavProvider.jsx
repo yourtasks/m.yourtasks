@@ -15,6 +15,7 @@ const NavProvider = () => {
     "users",
     "courses",
     "view",
+    "course-selection",
   ];
 
   const hide =

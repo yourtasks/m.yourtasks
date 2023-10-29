@@ -1,4 +1,5 @@
 import { connectToDB } from "@/libs/database";
+import { TempUser } from "@/models/tempUser";
 import { User } from "@/models/user";
 import { compare } from "bcrypt";
 import NextAuth from "next-auth/next";
@@ -14,9 +15,16 @@ const handler = NextAuth({
 
         await connectToDB();
 
-        const user = await User.findOne({ username }, { timeout: 20000 })
+        const tempUser = await TempUser.findOne({ username }).lean();
+
+        if (tempUser) {
+          throw new Error(`tempuser ${tempUser.studentId}`);
+        }
+
+        const user = await User.findOne({ username })
           .select("username password email role name")
           .lean();
+
         if (!user) throw new Error("Wrong username");
 
         const validatePassword = await compare(password, user.password);
@@ -48,6 +56,7 @@ const handler = NextAuth({
   },
   pages: {
     signIn: "/login",
+    error: "/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
 });

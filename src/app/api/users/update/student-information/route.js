@@ -22,16 +22,19 @@ export const PUT = async (request) => {
         $inc: { studentsCount: 1 },
       }
     );
+
     await User.findByIdAndUpdate(user._id, {
       $addToSet: {
         courses: { $each: courseIds },
       },
     });
 
-    return new NextResponse("Success");
+    return new NextResponse("Success", { status: 200 });
   } catch (error) {
     console.log(error);
 
-    return new NextResponse("Failed to update student information");
+    return new NextResponse("Failed to update student information", {
+      status: 500,
+    });
   }
 };

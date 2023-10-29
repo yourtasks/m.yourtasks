@@ -1,10 +1,8 @@
-import { serverAuth } from "@/libs/serverAuth";
+import { protectRoute } from "@/libs/protectRoute";
 import { NextResponse } from "next/server";
 
 export const GET = async (request) => {
-  const currentUser = await serverAuth(request);
-
-  const { password, ...user } = currentUser;
+  const user = await protectRoute();
 
   return new NextResponse(JSON.stringify(user), { status: 200 });
 };

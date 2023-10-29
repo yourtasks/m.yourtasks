@@ -10,12 +10,14 @@ export const protectRoute = async () => {
   }
   try {
     const currentUser = await User.findOne({
-      "email.address": session.user.email.address,
-    });
+      email: session.user.email,
+    })
+      .select(
+        "username firstname lastname email gender role studentId courses profilePicture"
+      )
+      .lean();
 
-    const { password, ...info } = currentUser._doc;
-
-    return info;
+    return currentUser;
   } catch (error) {
     console.log(error);
 

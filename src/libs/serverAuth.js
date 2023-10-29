@@ -10,12 +10,12 @@ export const serverAuth = async (req) => {
     redirect("/login");
   }
 
-  const emailAddress = session.user.email.address;
+  const emailAddress = session.user.email;
   await connectToDB();
 
   try {
     const user = await User.findOne({
-      "email.address": emailAddress,
+      email: emailAddress,
     });
 
     if (!user) {

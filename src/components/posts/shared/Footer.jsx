@@ -32,7 +32,13 @@ const Seperator = () => {
   );
 };
 
-export default function Footer({ postId, likes, comments, shares }) {
+export default function Footer({
+  postId,
+  likes,
+  likesCount,
+  commentsCount,
+  sharesCount,
+}) {
   const router = useRouter();
 
   const { data: user } = useCurrentUser();
@@ -44,8 +50,8 @@ export default function Footer({ postId, likes, comments, shares }) {
     if (user) {
       setLiked(likes.includes(user._id));
     }
-    setTotalLikes(likes.length);
-  }, [likes, user]);
+    setTotalLikes(likesCount);
+  }, [likesCount, user, likes]);
 
   const type = "tt";
 
@@ -101,13 +107,13 @@ export default function Footer({ postId, likes, comments, shares }) {
         <FooterItem
           onClick={handleComment}
           Icon={<BiCommentDetail size={20} />}
-          count={comments.length}
+          count={commentsCount}
         />
         <Seperator />
         <FooterItem
           onClick={handleShare}
           Icon={<BiShare size={20} />}
-          count={shares.length}
+          count={sharesCount}
         />
       </div>
     </div>

@@ -4,16 +4,12 @@ import Button from "@/components/form/Button";
 import InputField from "@/components/form/InputField";
 import { fetcher } from "@/libs/fetcher";
 import axios from "axios";
-import { signOut } from "next-auth/react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { BiLogOutCircle } from "react-icons/bi";
 import useSWR from "swr";
 
 const Verify = ({ studentId }) => {
   const { data: token, mutate } = useSWR(`/api/token/${studentId}`, fetcher);
-
-  console.log(token);
 
   const canResend = token
     ? new Date() - new Date(token.updatedAt) > 60000
@@ -68,12 +64,6 @@ const Verify = ({ studentId }) => {
   return (
     <div className="w-full h-full flex items-center justify-center">
       <div className="w-5/6 card p-4 flex flex-col gap-y-4 rounded-lg relative">
-        <div onClick={signOut} className="flex w-full justify-end items-center">
-          <p className="font-semibold px-4">Log out</p>
-          <div className="p-2 rounded-full bg-rose-500 flex items-center justify-center">
-            <BiLogOutCircle size={30} />
-          </div>
-        </div>
         <div className="flex items-center justify-center ">
           <p className="bg-sky-500 rounded-full h-16 w-16 text-3xl flex items-center justify-center font-semibold">
             @

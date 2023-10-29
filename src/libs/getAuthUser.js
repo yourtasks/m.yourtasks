@@ -11,18 +11,20 @@ export const getAuthUser = async () => {
 
   await connectToDB();
 
+  console.log(session);
+
   try {
     const user = await User.findOne({
-      "email.address": session.user.email.address,
-    });
+      email: session.user.email,
+    })
+      .select("username role courses")
+      .lean();
 
     if (!user) {
       return null;
     }
 
-    const { password, ...info } = user._doc;
-
-    return info;
+    return user;
   } catch (error) {
     console.log(error);
 

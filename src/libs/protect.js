@@ -12,6 +12,6 @@ export const protect = async () => {
     if (user.role === "admin") {
       return;
     }
-    redirect("/onboarding");
+    redirect("/course-selection");
   }
 };
