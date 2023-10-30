@@ -12,14 +12,18 @@ const Page = () => {
   const [selected, setSelected] = useState([]);
   const [loading, setLoading] = useState(false);
   const canSubmit = selected && selected.length > 0;
-  const { data: tasks, isLoading, mutate } = useSWR(`/api/tasks`, fetcher);
-
+  const {
+    data: tasks,
+    isLoading,
+    mutate,
+  } = useSWR(`/api/tasks`, fetcher, { refreshInterval: 1000 });
   const handleSubmit = async () => {
     setLoading(true);
     try {
       await axios.put(`/api/tasks`, { tasks: selected });
       toast.success("Marked as completed");
       await mutate();
+      //await mutate(`/api/tasks/complt`);
       setLoading(false);
       setSelected([]);
     } catch (error) {

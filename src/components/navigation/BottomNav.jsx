@@ -8,9 +8,7 @@ import {
   MdTask,
 } from "react-icons/md";
 import { HiUserGroup, HiOutlineUserGroup } from "react-icons/hi";
-import { IoAddCircleOutline, IoAddCircle } from "react-icons/io5";
 import Link from "next/link";
-import { v4 } from "uuid";
 import { usePathname } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "@/libs/fetcher";
@@ -48,10 +46,9 @@ const BottomNavItem = ({ title, href, Icon, Active, path, big, count }) => {
 };
 
 export default function BottomNavigation() {
-  const { data: tasksCount, isLoading: taskLoading } = useSWR(
-    `/api/tasks/pending`,
-    fetcher
-  );
+  const { data: tasksCount } = useSWR(`/api/tasks/pending`, fetcher, {
+    refreshInterval: 1000,
+  });
 
   const path = usePathname();
 

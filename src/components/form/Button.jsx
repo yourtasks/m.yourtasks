@@ -17,7 +17,7 @@ const Button = ({ title, loading, disabled, onClick, secondary, style }) => {
     >
       {loading ? (
         <div className="w-full flex items-center justify-center animate-spin">
-          <AiOutlineLoading size={24} />
+          <AiOutlineLoading size={14} />
         </div>
       ) : (
         <p

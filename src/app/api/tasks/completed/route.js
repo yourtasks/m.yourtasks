@@ -7,7 +7,7 @@ export const GET = async (request) => {
 
   try {
     const completedTasks = await Task.find({
-      source: { $in: user.studentInformation.courses },
+      source: { $in: user.courses },
       hasCompleted: { $in: user._id },
     })
       .populate("owner source")

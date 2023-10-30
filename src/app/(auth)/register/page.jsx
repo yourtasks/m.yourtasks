@@ -120,7 +120,7 @@ const Login = () => {
   };
 
   return (
-    <div className="h-full w-full flex flex-col items-center justify-center gap-y-4">
+    <div className="h-full w-full flex flex-col items-center justify-center gap-y-4 overflow-y-auto">
       {!hydrated && <OverlayLoading />}
       <div className="w-5/6 flex flex-col items-center gap-y-2 px-6 ">
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-y-3">

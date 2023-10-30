@@ -96,7 +96,7 @@ export const PUT = async (request) => {
   try {
     await Task.updateMany(
       { _id: { $in: tasks } },
-      { $addToSet: { hasCompleted: user._id } }
+      { $addToSet: { hasCompleted: user._id }, $inc: { tasksCount: -1 } }
     );
 
     return new NextResponse("Task marked as completed", { status: 200 });

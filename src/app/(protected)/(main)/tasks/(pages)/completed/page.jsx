@@ -1,17 +1,22 @@
 "use client";
-import Post from "@/components/posts/Post";
 import Empty from "@/components/shared/Empty";
-import PostSkeleton from "@/components/skeleton/PostSkeleton";
 import TaskSkeleton from "@/components/skeleton/TaskSkeleton";
 import TaskItem from "@/components/tasks/TaskItem";
-import TaskNav from "@/components/tasks/TaskNav";
 import { fetcher } from "@/libs/fetcher";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 const Page = () => {
-  const { data: tasks, isLoading } = useSWR(`/api/tasks/hasCompleted`, fetcher);
-
-  console.log(isLoading, tasks);
+  const { data: tasks, isLoading } = useSWR(`/api/tasks/completed`, fetcher, {
+    revalidateOnFocus: false,
+  });
+  const [completed, setCompleted] = useState();
+  console.log(isLoading);
+  useEffect(() => {
+    if (tasks && tasks.length > 0) {
+      setCompleted(tasks);
+    }
+  }, [tasks]);
 
   return (
     <div className="h-full w-full pt-[44px]">
@@ -24,8 +29,8 @@ const Page = () => {
             <TaskSkeleton />
             <TaskSkeleton />
           </div>
-        ) : tasks && tasks.length > 0 ? (
-          tasks.map((task) => (
+        ) : completed ? (
+          completed.map((task) => (
             <TaskItem
               key={task._id}
               data={task}

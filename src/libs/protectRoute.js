@@ -13,7 +13,7 @@ export const protectRoute = async () => {
       email: session.user.email,
     })
       .select(
-        "username firstname lastname email gender role studentId courses profilePicture"
+        "username firstname lastname email gender role studentId courses profilePicture maxCourse"
       )
       .lean();
 

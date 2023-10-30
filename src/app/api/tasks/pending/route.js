@@ -1,5 +1,6 @@
 import { protectRoute } from "@/libs/protectRoute";
 import { Course } from "@/models/course";
+import { Task } from "@/models/task";
 import { NextResponse } from "next/server";
 
 export const GET = async (request) => {
@@ -9,13 +10,13 @@ export const GET = async (request) => {
     return new NextResponse("Access denied", { status: 401 });
   }
   try {
-    const pending = await Course.find({ _id: { $in: user.courses } }).select(
-      "tasksCount"
-    );
+    const tasks = await Task.find({
+      source: { $in: user.courses },
+      hasCompleted: { $nin: [user._id] },
+    }).select("_id");
+    const pending = tasks.length;
 
-    const tasksCount = pending.reduce((acc, item) => acc + item.tasksCount, 0);
-
-    return new NextResponse(JSON.stringify(tasksCount), { status: 200 });
+    return new NextResponse(JSON.stringify(pending), { status: 200 });
   } catch (error) {
     console.log(error);
 

@@ -111,7 +111,7 @@ const Login = () => {
           {!loading && (
             <Link
               href="/forgot-password"
-              className="px-2 font-medium  text-sm text-sky-500 click w-fit rounded-lg"
+              className="text-sm px-2 font-medium text-sky-500 click w-fit rounded-lg"
             >
               Forgot password?
             </Link>
@@ -126,7 +126,7 @@ const Login = () => {
           <p>Don{"'"}t have an account? </p>
           <Link
             href={"/register"}
-            className="text-sm font-medium text-sky-500 px-2 py-2 click rounded-md no-select"
+            className="font-semibold text-sky-500 px-2 py-2 click rounded-md no-select"
           >
             Create an account
           </Link>

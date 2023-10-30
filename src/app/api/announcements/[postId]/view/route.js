@@ -15,8 +15,11 @@ export const PUT = async (request, { params }) => {
       });
     }
 
+    const seenCount = announcement.seen.length;
+
     await Announcement.findByIdAndUpdate(postId, {
       $addToSet: { seen: user._id },
+      $set: { seenCount: seenCount + 1 },
     });
 
     return new NextResponse("View added to announcement", { status: 200 });
