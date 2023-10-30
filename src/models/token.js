@@ -2,6 +2,11 @@ import { model, models, Schema } from "mongoose";
 
 const tokenSchema = new Schema(
   {
+    type: {
+      type: String,
+      enum: ["create", "forgot-password"],
+      default: "create",
+    },
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",

@@ -2,19 +2,36 @@
 
 import Button from "@/components/form/Button";
 import InputField from "@/components/form/InputField";
+import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { HiOutlineCode } from "react-icons/hi";
 
 export default function Page() {
-  const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [id, setId] = useState("");
 
   const handleChange = (e) => {
-    setCode(e.target.value);
+    setId(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
+
+    try {
+      const { data } = await axios.post(`/api/token/${id}/forgot-password`);
+
+      console.log(data);
+      toast.success("Code sent to your email");
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      toast.error("Failed to send code");
+    }
   };
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-y-4">
@@ -33,10 +50,10 @@ export default function Page() {
         <InputField
           type="number"
           placeholder="Student ID"
-          value={code}
+          value={id}
           onChange={handleChange}
         />
-        <Button title="send code" />
+        <Button title="send code" loading={loading} />
       </form>
       <div className="flex items-center gap-x-2 text-xs opacity-60 font-semibold no-select">
         <Link href="/login" className="px-2 py-1 click rounded-sm">

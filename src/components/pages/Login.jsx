@@ -110,7 +110,7 @@ const Login = () => {
           />
           {!loading && (
             <Link
-              href="/forgot-password"
+              href="/reset-password"
               className="text-sm px-2 font-medium text-sky-500 click w-fit rounded-lg"
             >
               Forgot password?
