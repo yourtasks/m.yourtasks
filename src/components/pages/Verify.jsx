@@ -18,7 +18,7 @@ const Verify = ({ studentId }) => {
   const [resending, setResending] = useState(false);
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState("");
-  const canSubmit = code.length === 6;
+  let canSubmit = code.length === 6;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,6 +32,7 @@ const Verify = ({ studentId }) => {
       window.location.replace("/login");
       toast.success("Email verified successfully");
       setLoading(false);
+      canSubmit = false;
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -74,7 +75,10 @@ const Verify = ({ studentId }) => {
         </h1>
         <p className="text-center text-sm opacity-70 py-4">
           A 6-digit verification code has been sent to your email. Please check
-          your email inbox, including the spam or junk folder, to find the code.
+          your email{" "}
+          <span className="font-semibold">{`${studentId}@student.green.edu.bd`}</span>{" "}
+          inbox,
+          <br /> including the spam or junk folder, to find the code.
           <br />
           <br />
           If you haven{"'"}t received the code, please click the{" "}

@@ -12,7 +12,7 @@ const Button = ({ title, loading, disabled, onClick, secondary, style }) => {
       onClick={handleClick}
       disabled={disabled || loading}
       className={`w-full ${
-        secondary ? "click rounded-lg py-2 px-4" : "button"
+        secondary ? "click rounded-md py-2 px-4" : "button"
       }`}
     >
       {loading ? (
@@ -20,7 +20,11 @@ const Button = ({ title, loading, disabled, onClick, secondary, style }) => {
           <AiOutlineLoading size={24} />
         </div>
       ) : (
-        <p className={`text-zinc-100 ${disabled && "text-zinc-600"} ${style}`}>
+        <p
+          className={`text-xs text-zinc-100 ${
+            disabled && "text-zinc-600"
+          } ${style}`}
+        >
           {title}
         </p>
       )}

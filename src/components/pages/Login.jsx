@@ -44,20 +44,30 @@ const Login = () => {
     await signIn("credentials", {
       username,
       password,
-      redirect: "/",
-    }).then(({ error }) => {
-      if (error.includes("tempuser")) {
-        const studentId = error.split(" ")[1];
-        window.location.replace(`/verify/${studentId}`);
-      } else if (error.includes("username")) {
-        setError({ name: "username", message: "wrong username" });
-      } else if (error.includes("password")) {
-        setError({ name: "password", message: "incorrect password" });
-      } else {
-        toast.error("Something went wrong");
+      redirect: false,
+    }).then((err) => {
+      console.log(err);
+      const { error, ok } = err;
+
+      if (error) {
+        if (error.includes("tempuser")) {
+          const studentId = error.split(" ")[1];
+          window.location.replace(`/verify/${studentId}`);
+          setEdit(false);
+        } else if (error.includes("username")) {
+          setError({ name: "username", message: "wrong username" });
+        } else if (error.includes("password")) {
+          setError({ name: "password", message: "incorrect password" });
+        } else {
+          toast.error("Something went wrong");
+        }
       }
+      if (ok) {
+        setEdit(false);
+        window.location.replace("/");
+      }
+      setLoading(false);
     });
-    setLoading(false);
   };
 
   const handleChange = (e) => {
@@ -75,10 +85,10 @@ const Login = () => {
   return (
     <div className="h-full w-full flex flex-col items-center justify-center gap-y-4">
       {!hydrated && <OverlayLoading />}
-      <div className="w-5/6 flex flex-col items-center gap-y-4 px-6 py-10 card rounded-lg">
-        <h1 className="text-xl font-semibold">Login Page</h1>
+      <div className="w-5/6 flex flex-col items-center gap-y-4 px-6 py-10  rounded-lg">
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-y-4">
           <InputField
+            label="username"
             disabled={loading || !edit}
             type="text"
             name="username"
@@ -89,6 +99,7 @@ const Login = () => {
             focus={true}
           />
           <InputField
+            label="Password"
             disabled={loading || !edit}
             type="password"
             name="password"
@@ -108,7 +119,7 @@ const Login = () => {
           <Button
             title="Log in"
             loading={loading}
-            disabled={loading || !canSubmit}
+            disabled={loading || !canSubmit || !edit}
           />
         </form>
         <div className="text-xs flex flex-col items-center gap-y-1 w-full">

@@ -45,7 +45,7 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 
   .input-field {
-    @apply invert-bg bg-opacity-10 dark:bg-opacity-10 outline-none placeholder:text-zinc-500 selection:bg-sky-500 ring-2  ring-sky-500 px-4 py-2 rounded-lg w-full ring-opacity-0 focus:ring-opacity-100 focus:bg-opacity-5 resize-none transition disabled:bg-opacity-5 dark:disabled:bg-opacity-5;
+    @apply text-xs font-medium invert-bg bg-opacity-10 dark:bg-opacity-10 outline-none placeholder:text-zinc-500 selection:bg-sky-500 ring-2  ring-sky-500 px-4 py-2 w-full ring-opacity-0 focus:ring-opacity-100 focus:bg-opacity-5 resize-none transition disabled:bg-opacity-5 dark:disabled:bg-opacity-5;
   }
 
   .button {

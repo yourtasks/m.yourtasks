@@ -4,7 +4,6 @@ import Button from "@/components/form/Button";
 import InputField from "@/components/form/InputField";
 import OverlayLoading from "@/components/shared/OverlayLoading";
 import axios from "axios";
-import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -123,10 +122,10 @@ const Login = () => {
   return (
     <div className="h-full w-full flex flex-col items-center justify-center gap-y-4">
       {!hydrated && <OverlayLoading />}
-      <div className="w-5/6 flex flex-col items-center gap-y-4 px-6 py-10 card rounded-lg">
-        <h1 className="text-xl font-semibold">Create an account</h1>
-        <form onSubmit={handleSubmit} className="w-full flex flex-col gap-y-4">
+      <div className="w-5/6 flex flex-col items-center gap-y-2 px-6 ">
+        <form onSubmit={handleSubmit} className="w-full flex flex-col gap-y-3">
           <InputField
+            label="Student ID"
             disabled={loading}
             type="number"
             name="studentId"
@@ -137,6 +136,7 @@ const Login = () => {
             min={11}
           />
           <InputField
+            label="Username"
             disabled={loading}
             type="text"
             name="username"
@@ -147,6 +147,7 @@ const Login = () => {
             style={"lowercase"}
           />
           <InputField
+            label="firstname"
             disabled={loading}
             type="text"
             name="firstname"
@@ -157,6 +158,7 @@ const Login = () => {
             style={"capitalize"}
           />
           <InputField
+            label="lastname"
             disabled={loading}
             type="text"
             name="lastname"
@@ -167,6 +169,7 @@ const Login = () => {
             style={"capitalize"}
           />
           <InputField
+            label="email"
             disabled={true}
             type="email"
             name="email"
@@ -177,6 +180,7 @@ const Login = () => {
           />
 
           <InputField
+            label="password"
             disabled={loading}
             type="password"
             name="password"
@@ -186,6 +190,7 @@ const Login = () => {
             error={error}
           />
           <InputField
+            label="confirm password"
             disabled={loading}
             type="password"
             name="confirmPassword"
@@ -201,10 +206,10 @@ const Login = () => {
           />
         </form>
         <div className="text-xs flex items-center gap-x-2">
-          <p>Already have an account? </p>
+          <p className="opacity-70 font-medium">Already have an account? </p>
           <Link
             href={"/login"}
-            className="font-medium text-sky-500 px-2 py-2 click rounded-md no-select"
+            className="font-semibold text-sky-500 px-2 py-2 click rounded-md no-select"
           >
             Log In
           </Link>

@@ -1,4 +1,5 @@
 const InputField = ({
+  label,
   disabled,
   type,
   name,
@@ -29,6 +30,11 @@ const InputField = ({
 
   return (
     <div className="w-full flex flex-col gap-y-1">
+      {label && (
+        <p className="text-xs font-semibold capitalize px-2 opacity-70">
+          {label}
+        </p>
+      )}
       <input
         autoFocus={focus && focus}
         disabled={disabled}
@@ -37,7 +43,7 @@ const InputField = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`input-field tracking-wider ${
+        className={`input-field rounded-md ${
           hasError && `ring-2 ring-rose-500 bg-rose-500 bg-opacity-10`
         } ${style}`}
         {...other}
